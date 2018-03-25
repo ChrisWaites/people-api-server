@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import viewsets, mixins
-from .models import User, Query, Response
-from .serializers import UserSerializer, QuerySerializer, ResponseSerializer
+from .models import Profile, Query, Response
+from .serializers import ProfileSerializer, QuerySerializer, ResponseSerializer
 
 class CreateListRetrieveDestroyViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
@@ -15,9 +15,9 @@ class CreateListRetrieveDestroyViewSet(mixins.CreateModelMixin,
     pass
 
 
-class UserViewSet(CreateListRetrieveDestroyViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 
 class QueryViewSet(CreateListRetrieveDestroyViewSet):
