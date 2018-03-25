@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Question, Response
+from .models import User, Query, Response
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,14 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('uuid',)
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuerySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
+        model = Query
         fields = ('uuid', 'text', 'regex', 'user')
 
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
-        fields = ('uuid', 'text', 'user', 'question')
+        fields = ('uuid', 'text', 'user', 'query')
 
