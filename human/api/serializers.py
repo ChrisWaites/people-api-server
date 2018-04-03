@@ -6,7 +6,7 @@ from .models import *
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id')
+        fields = ('id',)
 
 
 class QuerySerializer(serializers.ModelSerializer):
