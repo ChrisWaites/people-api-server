@@ -6,7 +6,7 @@ from .models import *
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id',)
+        fields = ('id')
 
 
 class QuerySerializer(serializers.ModelSerializer):
@@ -18,13 +18,21 @@ class QuerySerializer(serializers.ModelSerializer):
 
 
 class ResponseSerializer(serializers.ModelSerializer):
+    ratings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = Response
-        fields = ('id', 'text', 'query')
+        fields = ('id', 'text', 'query', 'ratings')
 
 
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
         fields = ('id', 'key', 'value')
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'value', 'response')
 

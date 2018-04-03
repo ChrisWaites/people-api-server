@@ -27,7 +27,7 @@ def save_profile(sender, instance, **kwargs):
 class Query(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    regex = models.TextField(default='.*')
+    regex = models.TextField(default='^.*$')
     created = models.DateTimeField(auto_now_add=True)
 
 
@@ -42,4 +42,11 @@ class Attribute(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.TextField()
     value = models.TextField()
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.FloatField()
+    response = models.ForeignKey(Response, related_name='ratings', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
 
