@@ -1,38 +1,33 @@
 from rest_framework import serializers
+import re
 
 from .models import *
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('id',)
-
-
 class QuerySerializer(serializers.ModelSerializer):
-    responses = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
     class Meta:
         model = Query
-        fields = ('id', 'text', 'regex', 'responses')
+        fields = ('id', 'text', 'regex', 'response', 'created')
 
+class CreateQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Query
+        fields = ('text', 'regex')
 
 class ResponseSerializer(serializers.ModelSerializer):
-    ratings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
     class Meta:
         model = Response
-        fields = ('id', 'text', 'query', 'ratings')
+        fields = ('id', 'text', 'query', 'created')
 
-
-class AttributeSerializer(serializers.ModelSerializer):
+class CreateResponseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Attribute
-        fields = ('id', 'key', 'value')
+        model = Response
+        fields = ('text', 'query')
 
-
-class RatingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ('id', 'value', 'response')
+    def validate(self, data):
+        text = data['text']
+        regex = data['query'].regex
+        if not re.fullmatch(regex, text):
+            raise serializers.ValidationError('Response text \'{}\' does not match query regex r\'{}\''.format(text, regex))
+        return data
 

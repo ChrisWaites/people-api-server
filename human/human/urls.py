@@ -22,11 +22,8 @@ from api import views
 schema_view = get_schema_view(title='Human API')
 
 router = DefaultRouter()
-router.register('profiles', views.ProfileViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
-router.register('attributes', views.AttributeViewSet)
-router.register('ratings', views.RatingViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

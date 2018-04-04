@@ -1,5 +1,9 @@
 from django.shortcuts import render
+import rest_framework
 from rest_framework import viewsets, mixins, permissions
+from rest_framework.decorators import action
+import re
+import random
 
 from .models import *
 from .serializers import *
@@ -7,63 +11,50 @@ from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
 
 
-class CreateListRetrieveDestroyViewSet(mixins.CreateModelMixin,
-                                mixins.ListModelMixin,
-                                mixins.RetrieveModelMixin,
-                                mixins.DestroyModelMixin,
-                                viewsets.GenericViewSet):
-    """
-    A viewset that provides 'retrieve', 'create', 'list', and 'destroy' actions.
-    """
-    pass
+class QueryViewSet(
+        mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.DestroyModelMixin,
+        viewsets.GenericViewSet
+    ):
 
-
-class UpdateListRetrieveViewSet(mixins.UpdateModelMixin,
-                                mixins.ListModelMixin,
-                                mixins.RetrieveModelMixin,
-                                viewsets.GenericViewSet):
-    """
-    A viewset that provides 'update', 'list', and 'retrieve' actions.
-    """
-    pass
-
-
-class ProfileViewSet(UpdateListRetrieveViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    filter_backends = (IsOwnerFilterBackend,)
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class QueryViewSet(CreateListRetrieveDestroyViewSet):
     queryset = Query.objects.all()
-    serializer_class = QuerySerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    @action(detail=False)
+    def get(self, request):
+        query = random.choice(Query.objects.filter(response=None))
+        serializer = self.get_serializer(query)
+        return rest_framework.response.Response(serializer.data)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateQuerySerializer
+        else:
+            return QuerySerializer
 
-class ResponseViewSet(CreateListRetrieveDestroyViewSet):
+
+class ResponseViewSet(
+        mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.DestroyModelMixin,
+        viewsets.GenericViewSet
+    ):
+
     queryset = Response.objects.all()
-    serializer_class = ResponseSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateResponseSerializer
+        else:
+            return ResponseSerializer
 
-class AttributeViewSet(CreateListRetrieveDestroyViewSet):
-    queryset = Attribute.objects.all()
-    serializer_class = AttributeSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class RatingViewSet(CreateListRetrieveDestroyViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
