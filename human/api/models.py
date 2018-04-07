@@ -10,33 +10,14 @@ class Payment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.TextField()
-
-    def save(self, *args, **kwargs):
-        """
-        charge = stripe.Charge.create(
-            amount=len(self.queries),
-            currency='usd',
-            source=self.token,
-        )
-        """
-        super(Payment, self).save(*args, **kwargs)
-
+    stripe_id = models.TextField()
 
 
 class Transfer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.TextField()
-
-    def save(self, *args, **kwargs):
-        """
-        transfer = stripe.Transfer.create(
-            amount=len(self.responses),
-            currency='usd',
-            destination=self.account_id,
-        )
-        """
-        super(Response, self).save(*args, **kwargs)
+    stripe_id = models.TextField()
 
 
 class Query(models.Model):
