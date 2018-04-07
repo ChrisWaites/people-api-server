@@ -1,13 +1,28 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 import re
 
 from .models import *
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+    password = serializers.CharField(write_only=True)
+    def create(self, validated_data):
+        user = UserModel.objects.create(
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
 class CreatePaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
@@ -21,6 +36,7 @@ class TransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transfer
         fields = '__all__'
+
 class CreateTransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transfer
@@ -34,10 +50,12 @@ class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
         fields = '__all__'
+
 class CreateResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
         fields = ('id', 'text', 'query')
+
     def validate(self, data):
         text = data['text']
         regex = data['query'].regex
@@ -50,10 +68,12 @@ class QuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
         fields = '__all__'
+
 class CreateQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
         fields = ('id', 'text', 'regex')
+
 class GetQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query

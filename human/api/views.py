@@ -1,6 +1,6 @@
 from django.shortcuts import render
-import rest_framework
-from rest_framework import viewsets, mixins, permissions
+from django.contrib.auth.models import User
+from rest_framework import viewsets, mixins, permissions, response
 from rest_framework.decorators import action
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
@@ -14,18 +14,15 @@ from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
 
 
-"""
-class PaidQueryViewSet(
+class UserViewSet(
         mixins.CreateModelMixin,
         viewsets.GenericViewSet
     ):
 
-    queryset = PaidQuery.objects.all()
-    serializer_class = PaidQuerySerializer
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = UserSerializer
 
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'checkout.html'
-"""
 
 class PaymentViewSet(
         mixins.ListModelMixin,
@@ -84,7 +81,7 @@ class QueryViewSet(
     def get(self, request):
         query = random.choice(Query.objects.filter(response=None).exclude(payment=None))
         serializer = self.get_serializer(query)
-        return rest_framework.response.Response(serializer.data)
+        return response.Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
