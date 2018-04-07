@@ -35,12 +35,17 @@ class PaymentViewSet(
     ):
 
     queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreatePaymentSerializer
+        else:
+            return QuerySerializer
 
 
 class TransferViewSet(
@@ -51,19 +56,23 @@ class TransferViewSet(
     ):
 
     queryset = Transfer.objects.all()
-    serializer_class = TransferSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreatePaymentSerializer
+        else:
+            return QuerySerializer
+
 
 class QueryViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
-        mixins.DestroyModelMixin,
         viewsets.GenericViewSet
     ):
 
@@ -93,7 +102,6 @@ class ResponseViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
-        mixins.DestroyModelMixin,
         viewsets.GenericViewSet
     ):
 
@@ -109,5 +117,4 @@ class ResponseViewSet(
             return CreateResponseSerializer
         else:
             return ResponseSerializer
-
 
