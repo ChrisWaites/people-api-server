@@ -2,6 +2,9 @@ from django.shortcuts import render
 import rest_framework
 from rest_framework import viewsets, mixins, permissions
 from rest_framework.decorators import action
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.views import APIView
+
 import re
 import random
 
@@ -9,6 +12,51 @@ from .models import *
 from .serializers import *
 from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
+
+
+"""
+class PaidQueryViewSet(
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = PaidQuery.objects.all()
+    serializer_class = PaidQuerySerializer
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'checkout.html'
+"""
+
+class PaymentViewSet(
+        mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    filter_backends = (IsOwnerFilterBackend,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class TransferViewSet(
+        mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = Transfer.objects.all()
+    serializer_class = TransferSerializer
+    filter_backends = (IsOwnerFilterBackend,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class QueryViewSet(
@@ -20,11 +68,12 @@ class QueryViewSet(
     ):
 
     queryset = Query.objects.all()
+    filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     @action(detail=False)
     def get(self, request):
-        query = random.choice(Query.objects.filter(response=None))
+        query = random.choice(Query.objects.filter(response=None).exclude(payment=None))
         serializer = self.get_serializer(query)
         return rest_framework.response.Response(serializer.data)
 
@@ -34,6 +83,8 @@ class QueryViewSet(
     def get_serializer_class(self):
         if self.action == 'create':
             return CreateQuerySerializer
+        elif self.action == 'get':
+            return GetQuerySerializer
         else:
             return QuerySerializer
 
@@ -47,6 +98,7 @@ class ResponseViewSet(
     ):
 
     queryset = Response.objects.all()
+    filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
@@ -57,4 +109,5 @@ class ResponseViewSet(
             return CreateResponseSerializer
         else:
             return ResponseSerializer
+
 

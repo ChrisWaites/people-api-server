@@ -24,6 +24,8 @@ schema_view = get_schema_view(title='Human API')
 router = DefaultRouter()
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
+router.register('payments', views.PaymentViewSet)
+router.register('transfers', views.TransferViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

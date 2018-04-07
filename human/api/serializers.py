@@ -1,28 +1,39 @@
 from rest_framework import serializers
+
 import re
 
 from .models import *
 
 
-class QuerySerializer(serializers.ModelSerializer):
+class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Query
-        fields = ('id', 'text', 'regex', 'response', 'created')
+        model = Payment
+        fields = ('id', 'token', 'queries')
 
-class CreateQuerySerializer(serializers.ModelSerializer):
+    def validate(self, data):
+        if len(data['queries']) < 50:
+            raise serializers.ValidationError('Payment must be at least 50 cents.')
+        return data
+
+class TransferSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Query
-        fields = ('text', 'regex')
+        model = Transfer
+        fields = ('id', 'token', 'responses')
+
+    def validate(self, data):
+        if len(data['responses']) < 50:
+            raise serializers.ValidationError('Transfer must be at least 50 cents.')
+        return data
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
-        fields = ('id', 'text', 'query', 'created')
+        fields = '__all__'
 
 class CreateResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
-        fields = ('text', 'query')
+        fields = ('id', 'text', 'query')
 
     def validate(self, data):
         text = data['text']
@@ -30,4 +41,21 @@ class CreateResponseSerializer(serializers.ModelSerializer):
         if not re.fullmatch(regex, text):
             raise serializers.ValidationError('Response text \'{}\' does not match query regex r\'{}\''.format(text, regex))
         return data
+
+class QuerySerializer(serializers.ModelSerializer):
+    response = ResponseSerializer(read_only=True)
+
+    class Meta:
+        model = Query
+        fields = '__all__'
+
+class CreateQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Query
+        fields = ('id', 'text', 'regex')
+
+class GetQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Query
+        fields = ('id', 'text', 'regex')
 
