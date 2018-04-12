@@ -1,1 +1,1 @@
-web: gunicorn human/human/human.wsgi --log-file -
+web: gunicorn human/human.wsgi --log-file -
