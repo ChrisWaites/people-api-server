@@ -1,6 +1,6 @@
 # Custom
-human/api/migrations/
-human/*.sqlite3
+api/migrations/
+*.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
