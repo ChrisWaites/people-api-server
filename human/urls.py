@@ -32,5 +32,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
-    path('', include(router.urls))
+    path('/', include(router.urls))
 ]
