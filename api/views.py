@@ -20,8 +20,8 @@ class UserViewSet(
     ):
 
     queryset = User.objects.all()
-    permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 class ProfileViewSet(
@@ -33,6 +33,7 @@ class ProfileViewSet(
     ):
 
     queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
@@ -47,6 +48,7 @@ class AttributeViewSet(
     ):
 
     queryset = Attribute.objects.all()
+    serializer_class = AttributeSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
