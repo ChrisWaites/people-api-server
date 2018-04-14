@@ -32,7 +32,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
-        fields = '__all__'
+        fields = ('id', 'key', 'value')
 
 
 class ResponseSerializer(serializers.ModelSerializer):
@@ -56,7 +56,6 @@ class CreateResponseSerializer(serializers.ModelSerializer):
 
 class QuerySerializer(serializers.ModelSerializer):
     response = ResponseSerializer(read_only=True)
-
     class Meta:
         model = Query
         fields = '__all__'
@@ -72,3 +71,4 @@ class GetQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
         fields = ('id', 'text', 'regex')
+
