@@ -9,7 +9,7 @@ import uuid
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     customer_id = models.TextField(null=True)
-    balance = models.PositiveIntegerField()
+    balance = models.PositiveIntegerField(default=0)
 
 
 @receiver(post_save, sender=User)
@@ -18,7 +18,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
     """
     if created:
-        Profile.objects.create(user=instance, customer_id='cus_TESTTESTTEST')
+        Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
