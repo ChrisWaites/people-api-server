@@ -23,54 +23,16 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class PaymentSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Payment
+        model = Profile
         fields = '__all__'
 
 
-class CreatePaymentSerializer(serializers.ModelSerializer):
+class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Payment
-        fields = ('id', 'token', 'queries')
-
-    def validate(self, data):
-        if len(data['queries']) < 50:
-            raise serializers.ValidationError('Payment must be at least 50 cents.')
-        return data
-
-    def create(self, validated_data):
-        charge = stripe.Charge.create(
-            amount=len(self.queries),
-            currency='usd',
-            source=self.token,
-        )
-        return Payment.objects.create(stripe_id=charge.id, **validated_data)
-
-
-class TransferSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transfer
+        model = Profile
         fields = '__all__'
-
-
-class CreateTransferSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transfer
-        fields = ('id', 'token', 'responses')
-
-    def validate(self, data):
-        if len(data['responses']) < 50:
-            raise serializers.ValidationError('Transfer must be at least 50 cents.')
-        return data
-
-    def create(self, validated_data):
-        transfer = stripe.Transfer.create(
-            amount=len(self.responses),
-            currency='usd',
-            destination=self.account_id,
-        )
-        return Transfer.objects.create(stripe_id=transfer.id, **validated_data)
 
 
 class ResponseSerializer(serializers.ModelSerializer):
@@ -110,4 +72,3 @@ class GetQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
         fields = ('id', 'text', 'regex')
-

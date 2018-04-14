@@ -24,46 +24,31 @@ class UserViewSet(
     serializer_class = UserSerializer
 
 
-class PaymentViewSet(
+class ProfileViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
+        mixins.UpdateModelMixin,
         viewsets.GenericViewSet
     ):
 
-    queryset = Payment.objects.all()
+    queryset = Profile.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return CreatePaymentSerializer
-        else:
-            return QuerySerializer
-
-
-class TransferViewSet(
+class AttributeViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
+        mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin,
         viewsets.GenericViewSet
     ):
 
-    queryset = Transfer.objects.all()
+    queryset = Attribute.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return CreatePaymentSerializer
-        else:
-            return QuerySerializer
 
 
 class QueryViewSet(

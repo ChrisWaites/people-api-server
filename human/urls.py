@@ -22,11 +22,11 @@ from api import views
 schema_view = get_schema_view(title='Human API')
 
 router = DefaultRouter()
+router.register('users', views.UserViewSet)
+router.register('profiles', views.ProfileViewSet)
+router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
-router.register('payments', views.PaymentViewSet)
-router.register('transfers', views.TransferViewSet)
-router.register('users', views.UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

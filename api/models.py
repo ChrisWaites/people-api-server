@@ -6,24 +6,40 @@ from django.dispatch import receiver
 import uuid
 
 
-class Payment(models.Model):
+class Profile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    token = models.TextField()
-    stripe_id = models.TextField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    customer_id = models.TextField()
+    balance = models.FloatField(default=0.0)
 
 
-class Transfer(models.Model):
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """
+    simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
+    """
+    if created:
+        Profile.objects.create(user=instance, customer_id='cus_TESTTESTTEST')
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    """
+    simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
+    """
+    instance.profile.save()
+
+
+class Attribute(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    token = models.TextField()
-    stripe_id = models.TextField()
+    key = models.TextField()
+    value = models.TextField()
 
 
 class Query(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, null=True, related_name='queries', on_delete=models.CASCADE)
     text = models.TextField()
     regex = models.TextField(default=r'^.*$')
 
@@ -31,7 +47,6 @@ class Query(models.Model):
 class Response(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transfer = models.ForeignKey(Transfer, null=True, related_name='responses', on_delete=models.CASCADE)
     text = models.TextField()
     query = models.OneToOneField(Query, related_name='response', on_delete=models.CASCADE)
 
