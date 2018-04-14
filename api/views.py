@@ -50,25 +50,6 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-"""
-    def perform_create(self, serializer):
-        amount = validated_data['amount']
-        user = validated_data['user']
-        if amount >= 0:
-            transaction = stripe.Charge.create(
-                amount=amount,
-                currency='usd',
-                customer_id=user.customer_id
-            )
-            user.balance += amount
-            user.save()
-            transaction_id = charge.id
-        else: 
-            transaction_id = 'withdrawal_testtest'
-
-        serializer.save(user=self.request.user)
-"""
-
     def get_serializer_class(self):
         if self.action == 'create':
             return CreateTransactionSerializer
