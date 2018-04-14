@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'customer_id', 'balance')
+        fields = ('user', 'customer_id', 'balance')
 
 
 class TransactionSerializer(serializers.ModelSerializer):
