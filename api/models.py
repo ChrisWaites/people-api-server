@@ -9,7 +9,7 @@ import uuid
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     customer_id = models.TextField(null=True)
-    balance = models.FloatField(default=0.0)
+    balance = models.PositiveIntegerField()
 
 
 @receiver(post_save, sender=User)
@@ -33,7 +33,7 @@ class Transaction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_id = models.TextField()
-    amount = models.IntField()
+    amount = models.IntegerField()
 
 
 class Attribute(models.Model):
