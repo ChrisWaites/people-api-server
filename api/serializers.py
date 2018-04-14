@@ -32,10 +32,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
+        fields = ('id', 'transaction_id', 'amount')
+
+
+class CreateTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
         fields = ('id', 'amount')
         
     def create(self, validated_data):
-        # dummy stripe call
         transaction_id = 'ch_TESTTESTTEST'
         return Transaction.objects.create(
             transaction_id=transaction_id,
