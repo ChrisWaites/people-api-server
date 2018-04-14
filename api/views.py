@@ -38,6 +38,12 @@ class ProfileViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return UpdateProfileSerializer
+        else:
+            return ProfileSerializer
+
 
 class TransactionViewSet(
         mixins.ListModelMixin,

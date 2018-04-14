@@ -30,6 +30,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'customer_id', 'balance')
 
 
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('customer_id',)
+
+
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
