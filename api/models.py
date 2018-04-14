@@ -7,9 +7,8 @@ import uuid
 
 
 class Profile(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    customer_id = models.TextField()
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    customer_id = models.TextField(null=True)
     balance = models.FloatField(default=0.0)
 
 
@@ -28,6 +27,13 @@ def save_user_profile(sender, instance, **kwargs):
     simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
     """
     instance.profile.save()
+
+
+def Transaction(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    transaction_id = models.TextField()
+    amount = models.FloatField()
 
 
 class Attribute(models.Model):

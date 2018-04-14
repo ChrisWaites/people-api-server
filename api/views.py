@@ -37,6 +37,19 @@ class ProfileViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
 
+class TransactionViewSet(
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+    filter_backends = (IsOwnerFilterBackend,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+
 class AttributeViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,

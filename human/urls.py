@@ -23,6 +23,7 @@ schema_view = get_schema_view(title='Human API')
 
 router = DefaultRouter()
 router.register('users', views.UserViewSet)
+router.register('transactions', views.TransactionViewSet)
 router.register('profiles', views.ProfileViewSet)
 router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)

@@ -29,6 +29,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('customer_id', 'balance')
 
 
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ('id', 'amount')
+        
+    def create(self, validated_data):
+        # dummy stripe call
+        transaction_id = 'ch_TESTTESTTEST'
+        return Transaction.objects.create(
+            transaction_id=transaction_id,
+            **validated_data
+        )
+
+
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
