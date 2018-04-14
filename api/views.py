@@ -5,13 +5,15 @@ from rest_framework.decorators import action
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
 
-import re
-import random
-
 from .models import *
 from .serializers import *
 from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
+
+import re
+import random
+import stripe
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
 class UserViewSet(
@@ -48,8 +50,24 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
+"""
     def perform_create(self, serializer):
+        amount = validated_data['amount']
+        user = validated_data['user']
+        if amount >= 0:
+            transaction = stripe.Charge.create(
+                amount=amount,
+                currency='usd',
+                customer_id=user.customer_id
+            )
+            user.balance += amount
+            user.save()
+            transaction_id = charge.id
+        else: 
+            transaction_id = 'withdrawal_testtest'
+
         serializer.save(user=self.request.user)
+"""
 
     def get_serializer_class(self):
         if self.action == 'create':

@@ -6,9 +6,6 @@ from django.conf import settings
 
 import re
 
-import stripe
-stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
-
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -43,26 +40,6 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ('id', 'amount')
-        
-    def create(self, validated_data):
-        amount = validated_data['amount']
-        user = validated_data['user']
-        if amount >= 0:
-            transaction = stripe.Charge.create(
-                amount=amount,
-                currency='usd',
-                customer_id=user.customer_id
-            )
-            user.balance += amount
-            user.save()
-            transaction_id = charge.id
-        else: # withdraw
-            transaction_id = 'withdrawal_test_test'
-
-        return Transaction.objects.create(
-            transaction_id=transaction_id,
-            **validated_data
-        )
 
 
 class AttributeSerializer(serializers.ModelSerializer):
