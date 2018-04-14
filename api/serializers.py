@@ -70,6 +70,7 @@ class CreateResponseSerializer(serializers.ModelSerializer):
 
 class QuerySerializer(serializers.ModelSerializer):
     response = ResponseSerializer(read_only=True)
+
     class Meta:
         model = Query
         fields = '__all__'

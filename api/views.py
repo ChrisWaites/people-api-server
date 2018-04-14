@@ -49,6 +49,9 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class AttributeViewSet(
         mixins.ListModelMixin,
@@ -63,6 +66,9 @@ class AttributeViewSet(
     serializer_class = AttributeSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class QueryViewSet(
