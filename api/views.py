@@ -26,7 +26,6 @@ class UserViewSet(
 
 class ProfileViewSet(
         mixins.ListModelMixin,
-        mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
         mixins.UpdateModelMixin,
         viewsets.GenericViewSet
