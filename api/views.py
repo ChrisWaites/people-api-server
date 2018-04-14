@@ -66,7 +66,7 @@ class QueryViewSet(
 
     @action(detail=False)
     def get(self, request):
-        query = random.choice(Query.objects.filter(response=None).exclude(payment=None))
+        query = random.choice(Query.objects.filter(response=None))
         serializer = self.get_serializer(query)
         return response.Response(serializer.data)
 
