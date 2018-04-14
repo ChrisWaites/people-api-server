@@ -31,7 +31,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
+        model = Attribute
         fields = '__all__'
 
 
