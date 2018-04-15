@@ -59,7 +59,7 @@ class TransactionView(APIView):
         return response.Response({'amount': 150}, template_name='checkout.html')
 
     def post(self, request):
-        return response.Response()
+        return response.Response({}, template_name='rest_framework/base.html')
 
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
