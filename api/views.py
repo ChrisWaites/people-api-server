@@ -55,6 +55,7 @@ class TransactionViewSet(
     queryset = Transaction.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    serializer_class = TransactionSerializer
 
     renderer_classes = (TemplateHTMLRenderer,)
 
@@ -77,12 +78,6 @@ class TransactionViewSet(
 #        profile.balance += amount
 #        profile.save()
 #        serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return CreateResponseSerializer
-        else:
-            return ResponseSerializer
 
 
 class AttributeViewSet(
