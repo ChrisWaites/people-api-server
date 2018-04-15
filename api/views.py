@@ -57,8 +57,9 @@ class TransactionViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        user = self.request.user
-        user.profile.balance += serializer.validated_data['amount']
+        profile = self.request.user.profile
+        profile.balance += serializer.validated_data['amount']
+        profile.save()
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
