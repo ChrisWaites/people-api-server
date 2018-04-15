@@ -61,7 +61,7 @@ class TransactionViewSet(
     template_name = 'checkout.html'
 
     def list(self, request, *args, **kwargs):
-        return Response({'amount': 0}, template_name='checkout.html')
+        return response.Response({'amount': 0}, template_name='checkout.html')
 
 #        profile = self.request.user.profile
 #        amount = serializer.validated_data['amount']
