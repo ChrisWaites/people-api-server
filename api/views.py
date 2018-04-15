@@ -58,8 +58,12 @@ class TransactionView(APIView):
     def get(self, request, *args, **kwargs):
         return response.Response({'amount': 150}, template_name='checkout.html')
 
-    def post(self, request):
-        return response.Response({}, template_name='rest_framework/base.html')
+    def post(self, request, *args, **kwargs):
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return response.Response(serializer.errors)
 
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
