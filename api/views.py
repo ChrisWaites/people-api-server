@@ -57,10 +57,11 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     renderer_classes = (TemplateHTMLRenderer,)
+    template_name = 'checkout.html'
 
     def get(self, request, *args, **kwargs):
         print(request)
-        return response.Response({}, template_name='checkout.html')
+        return response.Response({})
 
     def post(self, request, *args, **kwargs):
         print(request)
