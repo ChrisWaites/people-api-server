@@ -4,6 +4,7 @@ from rest_framework import viewsets, mixins, permissions, response
 from rest_framework.decorators import action
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 
 from .models import *
 from .serializers import *
@@ -111,6 +112,11 @@ class QueryViewSet(
         return response.Response(serializer.data)
 
     def perform_create(self, serializer):
+        profile = self.request.user.profile
+        if profile.balance == 0:
+            raise ValidationError('Balance insufficient.')
+        profile.balance -= 1
+        profile.save()
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
