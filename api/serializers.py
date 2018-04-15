@@ -24,6 +24,18 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ('id', 'amount')
+
+
+class CreateTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ('id', 'stripeToken', 'amount', 'transaction_id')
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
@@ -34,12 +46,6 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('customer_id',)
-
-
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = '__all__'
 
 
 class AttributeSerializer(serializers.ModelSerializer):

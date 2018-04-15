@@ -57,15 +57,13 @@ class TransactionView(APIView):
     renderer_classes = (TemplateHTMLRenderer, JSONRenderer)
 
     def get(self, request, *args, **kwargs):
-        return response.Response({'amount': 150}, template_name='checkout.html')
+        return response.Response(request.data, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
+        # do stripe stuff, get transaction id
+        # save transaction object
         print(request.data)
-        serializer = TransactionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return HttpResponse(serializer.data)
-        return HttpResponse(serializer.errors)
+        return HttpResponse(request.data)
 
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
