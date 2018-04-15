@@ -60,11 +60,11 @@ class TransactionViewSet(
 
     def get(self, request, *args, **kwargs):
         print(request)
-        return Response({}, template_name='checkout.html')
+        return response.Response({}, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
         print(request)
-        return Response({})
+        return response.Response({})
 
 #        profile = self.request.user.profile
 #        amount = serializer.validated_data['amount']
