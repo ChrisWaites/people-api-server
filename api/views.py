@@ -58,9 +58,15 @@ class TransactionViewSet(
 
     def perform_create(self, serializer):
         profile = self.request.user.profile
-        profile.balance += serializer.validated_data['amount']
+        amount = serializer.validated_data['amount']
+        transaction = stripe.Charge.create(
+            amount=amount,
+            currency='usd',
+            customer=profile.customer_id,
+        )
+        profile.balance += amount # if transaction goes through, safely update balance
         profile.save()
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, transaction_id=transaction.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
