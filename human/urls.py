@@ -23,7 +23,6 @@ schema_view = get_schema_view(title='Human API')
 
 router = DefaultRouter()
 router.register('users', views.UserViewSet)
-router.register('transactions', views.TransactionViewSet)
 router.register('profiles', views.ProfileViewSet)
 router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
@@ -33,5 +32,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('transactions/', views.TransactionView.as_view()),
 ]

@@ -46,24 +46,21 @@ class ProfileViewSet(
             return ProfileSerializer
 
 
-class TransactionViewSet(
-        mixins.ListModelMixin,
-        mixins.CreateModelMixin,
-        viewsets.GenericViewSet
-    ):
+class TransactionView(APIView):
 
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
     renderer_classes = (TemplateHTMLRenderer,)
-    template_name='checkout.html'
+    template_name = 'checkout.html'
 
     def get(self, request, *args, **kwargs):
         return response.Response({'amount': 150})
 
-    def post(self, request, *args, **kwargs):
-        return response.Response({})
+#    def post(self, request, *args, **kwargs):
+#        return response.Response({})
 
 #        profile = self.request.user.profile
 #        amount = serializer.validated_data['amount']
