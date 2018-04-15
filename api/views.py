@@ -57,7 +57,7 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-    renderer_classes = [TemplateHTMLRender]
+    renderer_classes = (TemplateHTMLRenderer,)
     template_name = 'checkout.html'
 
     def create(self, request):
