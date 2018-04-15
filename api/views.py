@@ -59,6 +59,9 @@ class TransactionView(APIView):
     def get(self, request, *args, **kwargs):
         return response.Response({'amount': 150})
 
+    def post(self, request):
+        return response.Response()
+
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
 
