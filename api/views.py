@@ -57,6 +57,7 @@ class TransactionView(APIView):
     renderer_classes = (TemplateHTMLRenderer, JSONRenderer)
 
     def get(self, request, *args, **kwargs):
+        print(request.data)
         return response.Response(request.data, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
