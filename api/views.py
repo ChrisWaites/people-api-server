@@ -50,21 +50,24 @@ class ProfileViewSet(
 class TransactionView(APIView):
 
     queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-    renderer_classes = (TemplateHTMLRenderer, JSONRenderer)
+    renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
         print(request.data)
         return response.Response(request.data, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
-        # do stripe stuff, get transaction id
-        # save transaction object
         print(request.data)
         return HttpResponse(request.data)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreateTransactionSerializer
+        else:
+            return TransactionSerializer
 
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
