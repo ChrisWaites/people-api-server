@@ -63,6 +63,10 @@ class TransactionViewSet(
     def list(self, request, *args, **kwargs):
         return response.Response({'amount': 0}, template_name='checkout.html')
 
+    def create(self, request, *args, **kwargs):
+        print(request)
+        return response.Response(status=204)
+
 #        profile = self.request.user.profile
 #        amount = serializer.validated_data['amount']
 #        stripeToken = serializer.validated_data['stripeToken']
