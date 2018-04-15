@@ -53,10 +53,9 @@ class TransactionViewSet(
     ):
 
     queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    serializer_class = TransactionSerializer
-
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
