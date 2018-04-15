@@ -7,7 +7,7 @@ import uuid
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
     customer_id = models.TextField(null=True)
     balance = models.PositiveIntegerField(default=0)
 
