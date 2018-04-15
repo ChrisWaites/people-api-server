@@ -58,7 +58,7 @@ class TransactionViewSet(
 
     def perform_create(self, serializer):
         user = self.request.user
-        user.profile.balance += serializer.data['amount']
+        user.profile.balance += serializer.validated_data['amount']
         user.save()
         serializer.save(user=self.request.user)
 
