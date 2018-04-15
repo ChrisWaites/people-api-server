@@ -48,7 +48,6 @@ class ProfileViewSet(
 
 class TransactionViewSet(
         mixins.ListModelMixin,
-        mixins.RetrieveModelMixin,
         mixins.CreateModelMixin,
         viewsets.GenericViewSet
     ):
@@ -58,14 +57,14 @@ class TransactionViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     renderer_classes = (TemplateHTMLRenderer,)
-    template_name = 'checkout.html'
 
-    def list(self, request, *args, **kwargs):
-        return response.Response({'amount': 0}, template_name='checkout.html')
-
-    def create(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         print(request)
-        return response.Response(status=204)
+        return Response({}, template_name='checkout.html')
+
+    def post(self, request, *args, **kwargs):
+        print(request)
+        return Response({})
 
 #        profile = self.request.user.profile
 #        amount = serializer.validated_data['amount']
