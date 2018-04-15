@@ -54,10 +54,9 @@ class TransactionView(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     renderer_classes = (TemplateHTMLRenderer,)
-    template_name = 'checkout.html'
 
     def get(self, request, *args, **kwargs):
-        return response.Response({'amount': 150})
+        return response.Response({'amount': 150}, template_name='checkout.html')
 
     def post(self, request):
         return response.Response()
