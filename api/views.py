@@ -140,6 +140,9 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
+        profile = self.request.user.profile
+        profile.balance += 1
+        profile.save()
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
