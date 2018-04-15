@@ -60,21 +60,20 @@ class TransactionViewSet(
     renderer_classes = (TemplateHTMLRenderer,)
     template_name = 'checkout.html'
 
-    def create(self, request):
-        print(request)
-        """
-        profile = self.request.user.profile
-        amount = serializer.validated_data['amount']
-        stripeToken = serializer.validated_data['stripeToken']
-        transaction = stripe.Charge.create(
-            amount=amount,
-            currency='usd',
-            source=stripeToken,
-        )
-        profile.balance += amount
-        profile.save()
-        serializer.save(user=self.request.user)
-        """
+    def list(self, request, *args, **kwargs):
+        return Response({'amount': 0}, template_name='checkout.html')
+
+#        profile = self.request.user.profile
+#        amount = serializer.validated_data['amount']
+#        stripeToken = serializer.validated_data['stripeToken']
+#        transaction = stripe.Charge.create(
+#            amount=amount,
+#            currency='usd',
+#            source=stripeToken,
+#        )
+#        profile.balance += amount
+#        profile.save()
+#        serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
