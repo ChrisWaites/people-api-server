@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets, mixins, permissions, response
 from rest_framework.decorators import action
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.renderers import TemplateHTMLRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 
@@ -53,7 +53,7 @@ class TransactionView(APIView):
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-    renderer_classes = (TemplateHTMLRenderer,)
+    renderer_classes = (TemplateHTMLRenderer, BrowsableAPIRenderer)
 
     def get(self, request, *args, **kwargs):
         return response.Response({'amount': 150}, template_name='checkout.html')
