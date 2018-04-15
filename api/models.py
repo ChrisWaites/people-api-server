@@ -31,8 +31,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Transaction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transaction_id = models.TextField()
+    stripeToken = models.TextField()
     amount = models.IntegerField()
 
 

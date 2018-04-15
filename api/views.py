@@ -57,23 +57,30 @@ class TransactionViewSet(
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
-    def perform_create(self, serializer):
+    renderer_classes = [TemplateHTMLRender]
+    template_name = 'checkout.html'
+
+    def create(self, request):
+        print(request)
+        """
         profile = self.request.user.profile
         amount = serializer.validated_data['amount']
+        stripeToken = serializer.validated_data['stripeToken']
         transaction = stripe.Charge.create(
             amount=amount,
             currency='usd',
-            customer=profile.customer_id,
+            source=stripeToken,
         )
-        profile.balance += amount # if transaction goes through, safely update balance
+        profile.balance += amount
         profile.save()
-        serializer.save(user=self.request.user, transaction_id=transaction.id)
+        serializer.save(user=self.request.user)
+        """
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return CreateTransactionSerializer
+            return CreateResponseSerializer
         else:
-            return TransactionSerializer
+            return ResponseSerializer
 
 
 class AttributeViewSet(

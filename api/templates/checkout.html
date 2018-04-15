@@ -1,11 +1,12 @@
-<form action="payment" method="POST">
+<form action="/transaction" method="POST">
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="pk_test_Bd2TMQ2vDKpnZ0ZXvaf8R8Gf"
-        data-amount={{ bid }}
+        data-amount={{ amount }}
         data-name="human api"
         data-description="Widget"
         data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto">
+        data-locale="auto"
+        data-zip-code="true">
     </script>
 </form>

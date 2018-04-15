@@ -39,13 +39,13 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ('id', 'transaction_id', 'amount')
+        fields = ('id', 'stripeToken', 'amount')
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ('id', 'amount')
+        fields = ('id', 'stripeToken', 'amount')
 
 
 class AttributeSerializer(serializers.ModelSerializer):
