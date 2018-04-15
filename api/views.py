@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from rest_framework import viewsets, mixins, permissions, response
 from rest_framework.decorators import action
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
@@ -59,11 +60,12 @@ class TransactionView(APIView):
         return response.Response({'amount': 150}, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return response.Response(serializer.errors)
+            return HttpResponse(serializer.data)
+        return HttpResponse(serializer.errors)
 
 #    def post(self, request, *args, **kwargs):
 #        return response.Response({})
