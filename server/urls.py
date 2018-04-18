@@ -1,4 +1,4 @@
-"""human URL Configuration
+"""server URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -14,24 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework.schemas import get_schema_view
-from rest_framework.routers import DefaultRouter
-from api import views
-
-schema_view = get_schema_view(title='Human API')
-
-router = DefaultRouter()
-router.register('users', views.UserViewSet)
-router.register('profiles', views.ProfileViewSet)
-router.register('attributes', views.AttributeViewSet)
-router.register('queries', views.QueryViewSet)
-router.register('responses', views.ResponseViewSet)
+from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('rest_framework.urls')),
-    path('schema/', schema_view),
-    path('', include(router.urls)),
-    path('transactions/', views.TransactionView.as_view()),
 ]
