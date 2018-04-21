@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.schemas import get_schema_view
 from rest_framework.routers import DefaultRouter
-from api import views
+from people import views
 
 schema_view = get_schema_view(title='People API')
 
