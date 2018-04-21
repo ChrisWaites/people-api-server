@@ -39,7 +39,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('user', 'customer_id', 'balance')
+        fields = ('user', 'balance')
 
 
 class UpdateProfileSerializer(serializers.ModelSerializer):
