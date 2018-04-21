@@ -33,6 +33,6 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
     path('', include(router.urls)),
-    router.register('transactions', views.TransactionView)
+    path('transactions/', views.TransactionView.as_view()),
 ]
 
