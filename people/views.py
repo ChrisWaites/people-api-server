@@ -15,6 +15,7 @@ from .permissions import IsOwnerOrReadOnly
 import re
 import random
 import stripe
+
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
@@ -56,33 +57,38 @@ class TransactionView(APIView):
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
+        print('GET')
         print(request.data)
         return response.Response(request.data, template_name='checkout.html')
 
     def post(self, request, *args, **kwargs):
+        print('POST')
         print(request.data)
         return HttpResponse(request.data)
 
+
+"""
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateTransactionSerializer
         else:
             return TransactionSerializer
 
-#    def post(self, request, *args, **kwargs):
-#        return response.Response({})
+    def post(self, request, *args, **kwargs):
+        return response.Response({})
 
-#        profile = self.request.user.profile
-#        amount = serializer.validated_data['amount']
-#        stripeToken = serializer.validated_data['stripeToken']
-#        transaction = stripe.Charge.create(
-#            amount=amount,
-#            currency='usd',
-#            source=stripeToken,
-#        )
-#        profile.balance += amount
-#        profile.save()
-#        serializer.save(user=self.request.user)
+        profile = self.request.user.profile
+        amount = serializer.validated_data['amount']
+        stripeToken = serializer.validated_data['stripeToken']
+        transaction = stripe.Charge.create(
+            amount=amount,
+            currency='usd',
+            source=stripeToken,
+        )
+        profile.balance += amount
+        profile.save()
+        serializer.save(user=self.request.user)
+"""
 
 
 class AttributeViewSet(
