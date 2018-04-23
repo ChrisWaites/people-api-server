@@ -24,13 +24,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class TransactionSerializer(serializers.ModelSerializer):
+class DepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ('id', 'amount')
 
 
-class CreateTransactionSerializer(serializers.ModelSerializer):
+class CreateDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ('id', 'stripeToken', 'amount', 'transaction_id')

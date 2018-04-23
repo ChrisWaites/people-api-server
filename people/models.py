@@ -28,7 +28,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-class Transaction(models.Model):
+class Deposit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stripeToken = models.TextField()

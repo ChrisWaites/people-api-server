@@ -48,32 +48,35 @@ class ProfileViewSet(
             return ProfileSerializer
 
 
-class TransactionView(APIView):
+class DepositViewSet(
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet
+    ):
 
-    queryset = Transaction.objects.all()
-    filter_backends = (IsOwnerFilterBackend,)
+#    queryset = Transaction.objects.all()
+#    filter_backends = (IsOwnerFilterBackend,)
 #    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     renderer_classes = (TemplateHTMLRenderer,)
 
-    def get(self, request, *args, **kwargs):
-        print('GET')
-        print(request.data)
-        return response.Response(request.data, template_name='checkout.html')
-
-    def post(self, request, *args, **kwargs):
+    def create(self, request):
         print('POST')
         print(request.data)
         return HttpResponse(request.data)
 
+    def retrieve(self, request, pk=None):
+        print('GET')
+        print(request.data)
+        return response.Response(request.data, template_name='checkout.html')
 
-"""
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return CreateTransactionSerializer
+            return CreateDepositSerializer
         else:
-            return TransactionSerializer
+            return DepositSerializer
 
+"""
     def post(self, request, *args, **kwargs):
         return response.Response({})
 
