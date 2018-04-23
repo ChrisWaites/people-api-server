@@ -54,7 +54,7 @@ class DepositViewSet(
         viewsets.GenericViewSet
     ):
 
-    queryset = Transaction.objects.all()
+    queryset = Deposit.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
