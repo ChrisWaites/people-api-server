@@ -33,19 +33,13 @@ class DepositSerializer(serializers.ModelSerializer):
 class CreateDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposit
-        fields = ('id', 'stripeToken', 'amount', 'transaction_id')
+        fields = ('id', 'stripeToken', 'amount')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('user', 'balance')
-
-
-class UpdateProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('customer_id',)
 
 
 class AttributeSerializer(serializers.ModelSerializer):
