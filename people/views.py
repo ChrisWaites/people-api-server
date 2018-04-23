@@ -52,7 +52,7 @@ class TransactionView(APIView):
 
     queryset = Transaction.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+#    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     renderer_classes = (TemplateHTMLRenderer,)
 
