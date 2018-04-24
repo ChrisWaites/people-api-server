@@ -45,7 +45,7 @@ class CreateDepositSerializer(serializers.ModelSerializer):
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
-        fields = '__all__'
+        fields = ('id', 'key', 'value')
 
 
 class ResponseSerializer(serializers.ModelSerializer):

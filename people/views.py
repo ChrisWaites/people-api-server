@@ -31,7 +31,6 @@ class UserViewSet(
 class ProfileViewSet(
         mixins.ListModelMixin,
         mixins.RetrieveModelMixin,
-        mixins.UpdateModelMixin,
         viewsets.GenericViewSet
     ):
 
