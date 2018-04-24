@@ -10,6 +10,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
     balance = models.PositiveIntegerField(default=0)
 
+#    def balance(self):
+#        Deposit.objects.filter(user=self.user).aggregate(Sum('amount')) - Query.objects.filter(user=self.user).aggregate(Sum('bid'))
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -29,11 +32,10 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class Deposit(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    chargeId = models.TextField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stripeToken = models.TextField()
-    chargeId = models.TextField()
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField()
 
 
 class Attribute(models.Model):
@@ -48,6 +50,7 @@ class Query(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     regex = models.TextField(default=r'^.*$')
+    bid = models.PositiveIntegerField(default=1)
 
 
 class Response(models.Model):
