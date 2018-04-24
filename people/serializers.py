@@ -72,11 +72,11 @@ class QuerySerializer(serializers.ModelSerializer):
 class CreateQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
-        fields = ('id', 'text', 'regex')
+        fields = ('id', 'text', 'regex', 'bid')
 
 
 class GetQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Query
-        fields = ('id', 'text', 'regex')
+        fields = ('id', 'text', 'regex', 'bid')
 
