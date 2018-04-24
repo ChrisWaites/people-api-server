@@ -53,7 +53,7 @@ class DepositView(APIView):
 
     def post(self, request):
         profile = request.user.profile
-        amount = request.data['amount']
+        amount = int(request.data['amount'])
         stripeToken = request.data['stripeToken']
 
         print('<Charge {} {} {}>'.format(amount, 'usd', stripeToken))
