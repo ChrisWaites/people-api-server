@@ -16,7 +16,7 @@ import re
 import random
 import stripe
 
-stripe.api_key = settings.STRIPE_PRIVATE_KEY
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class UserViewSet(
