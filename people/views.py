@@ -28,16 +28,12 @@ class UserViewSet(
     permission_classes = (permissions.AllowAny,)
 
 
-class ProfileViewSet(
-        mixins.ListModelMixin,
-        mixins.RetrieveModelMixin,
-        viewsets.GenericViewSet
-    ):
+class ProfileView(APIView):
 
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get(self, request):
+        return response.Response({'balance': Profile.object.get(user=request.user).balance()})
 
 
 class CheckoutView(APIView):

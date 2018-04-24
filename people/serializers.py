@@ -24,12 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = '__all__'
-
-
 class DepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposit

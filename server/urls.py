@@ -23,7 +23,6 @@ schema_view = get_schema_view(title='People API')
 
 router = DefaultRouter()
 router.register('users', views.UserViewSet)
-router.register('profiles', views.ProfileViewSet)
 router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
@@ -35,5 +34,6 @@ urlpatterns = [
     path('schema/', schema_view),
     path('', include(router.urls)),
     path('checkout/', views.CheckoutView.as_view())
+    path('profile/', views.ProfileView.as_view())
 ]
 
