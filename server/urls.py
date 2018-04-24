@@ -33,7 +33,7 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
     path('', include(router.urls)),
-    path('checkout/', views.CheckoutView.as_view())
-    path('profile/', views.ProfileView.as_view())
+    path('profile/', views.ProfileView.as_view()),
+    path('checkout/', views.CheckoutView.as_view()),
 ]
 
