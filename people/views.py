@@ -33,7 +33,7 @@ class ProfileView(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def get(self, request):
-        return response.Response({'balance': Profile.object.get(user=request.user).balance()})
+        return response.Response({'balance': Profile.objects.get(user=request.user).balance()})
 
 
 class CheckoutView(APIView):
