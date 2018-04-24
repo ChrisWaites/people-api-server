@@ -132,17 +132,14 @@ STATIC_URL = '/static/'
 
 # Stripe
 
-STRIPE_MODE = os.environ["STRIPE_MODE"]
+STRIPE_MODE = os.environ.get('STRIPE_MODE', 'TEST')
 
-if os.environ["STRIPE_MODE"] == 'LIVE':
-    STRIPE_PUBLIC_KEY = os.environ['STRIPE_LIVE_PUBLIC_KEY']
-    STRIPE_SECRET_KEY = os.environ['STRIPE_LIVE_SECRET_KEY']
-elif os.environ["STRIPE_MODE"] == 'TEST':
-    STRIPE_PUBLIC_KEY = os.environ['STRIPE_TEST_PUBLIC_KEY']
-    STRIPE_SECRET_KEY = os.environ['STRIPE_TEST_SECRET_KEY']
+if STRIPE_MODE == 'LIVE':
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_LIVE_PUBLIC_KEY', '')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_LIVE_SECRET_KEY', '')
 else:
-    raise Exception("Environment variable 'STRIPE_MODE' set to '{}' - should be 'LIVE' or 'TEST'".format(STRIPE_MODE))
-
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_TEST_PUBLIC_KEY', '')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY', '')
 
 
 import django_heroku

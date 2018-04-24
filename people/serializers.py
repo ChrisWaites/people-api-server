@@ -24,18 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class DepositSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Deposit
-        fields = ('id', 'amount')
-
-
-class CreateDepositSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Deposit
-        fields = ('id', 'stripeToken', 'amount')
-
-
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile

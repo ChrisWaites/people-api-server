@@ -64,7 +64,7 @@ class DepositView(APIView):
             source=stripeToken,
         )
 
-        Deposit.objects.create(chargeId=charge.id, amount=amount)
+        deposit = Deposit.objects.create(user=request.user, chargeId=charge.id, amount=amount)
         profile.balance += amount
         profile.save()
 
