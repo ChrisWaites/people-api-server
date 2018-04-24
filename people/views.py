@@ -42,38 +42,27 @@ class ProfileViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
 
-class DepositViewSet(
-        mixins.CreateModelMixin,
-        mixins.RetrieveModelMixin,
-        viewsets.GenericViewSet
-    ):
+class DepositView(APIView):
 
-    queryset = Deposit.objects.all()
-    filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-
     renderer_classes = (TemplateHTMLRenderer,)
 
-    def create(self, request):
-        print('POST')
-        print(request.data)
-        return HttpResponse(request.data)
-
-    def retrieve(self, request, pk=None):
+    def get(self, request):
         print('GET')
+        print(request)
         print(request.data)
+        print(request.__dict__)
         return response.Response(request.data, template_name='checkout.html')
 
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return CreateDepositSerializer
-        else:
-            return DepositSerializer
+    def post(self, request):
+        print('POST')
+        print(request)
+        print(request.data)
+        print(request.__dict__)
+        return HttpResponse(request.data)
 
 """
-    def post(self, request, *args, **kwargs):
-        return response.Response({})
-
+    def post(self, request):
         profile = self.request.user.profile
         amount = serializer.validated_data['amount']
         stripeToken = serializer.validated_data['stripeToken']
