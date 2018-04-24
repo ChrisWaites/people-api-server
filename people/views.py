@@ -67,14 +67,14 @@ class DepositViewSet(
 
     def perform_create(self, serializer):
         profile = self.request.user.profile
+        amount = serializer.validated_data['amount']
         charge = stripe.Charge.create(
-            amount=serializer.validated_data['amount'],
+            amount=amount,
             currency='usd',
             source=serializer.validated_data['stripeToken'],
         )
         profile.balance += amount
         profile.save()
-        print('Stripe charge went through!')
         serializer.save(user=self.request.user, chargeId=charge.id)
 
     def get_serializer_class(self):
