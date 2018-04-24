@@ -64,7 +64,7 @@ class DepositView(APIView):
             source=stripeToken,
         )
 
-        Deposit.objects.create(user=request.user, chargeId=charge.id, amount=amount)
+        Deposit.objects.create(chargeId=charge.id, amount=amount)
         profile.balance += amount
         profile.save()
 
@@ -109,7 +109,7 @@ class QueryViewSet(
     def perform_create(self, serializer):
         profile = self.request.user.profile
         if profile.balance == 0:
-            raise ValidationError('Balance insufficient.')
+            raise ValidationError('Insufficient balance.')
         profile.balance -= 1
         profile.save()
         serializer.save(user=self.request.user)
