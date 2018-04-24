@@ -76,7 +76,7 @@ class DepositViewSet(
         )
         profile.balance += amount
         profile.save()
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, chargeId=charge.id)
 
     def get_serializer_class(self):
         if self.action == 'create':

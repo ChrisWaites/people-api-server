@@ -33,6 +33,7 @@ class Deposit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     chargeId = models.TextField()
     amount = models.IntegerField()
+    stripeToken = models.TextField()
 
 
 class Attribute(models.Model):
