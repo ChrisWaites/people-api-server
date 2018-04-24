@@ -50,7 +50,7 @@ class DepositView(APIView):
     def get(self, request):
         print('GET')
         print(request.query_params)
-        return response.Response(request.query_params, template_name='checkout.html')
+        return response.Response({'amount': request.query_params['amount']}, template_name='checkout.html')
 
     def post(self, request):
         print('POST')
