@@ -33,6 +33,6 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
     path('', include(router.urls)),
-    path('deposits/', views.DepositView.as_view())
+    path('deposits/(?P<amount>\d+)/', views.DepositView.as_view())
 ]
 

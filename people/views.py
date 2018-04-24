@@ -55,6 +55,11 @@ class DepositView(APIView):
         print(amount)
         return response.Response({'amount': amount}, template_name='checkout.html')
 
+class CreateDepositView(APIView):
+
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    renderer_classes = (TemplateHTMLRenderer,)
+
     def post(self, request):
         print('POST')
         print(request)
