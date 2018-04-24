@@ -16,6 +16,8 @@ import re
 import random
 import stripe
 
+stripe.api_key = settings.STRIPE_PRIVATE_KEY
+
 
 class UserViewSet(
         mixins.CreateModelMixin,
