@@ -12,7 +12,6 @@ from .serializers import *
 from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
 
-import re
 import random
 import stripe
 
@@ -68,11 +67,14 @@ class DepositViewSet(
     def perform_create(self, serializer):
         profile = self.request.user.profile
         amount = serializer.validated_data['amount']
+
         charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
             source=serializer.validated_data['stripeToken'],
         )
+
+        # NOTE: Balance increment must be after stripe charge creation above
         profile.balance += amount
         profile.save()
         serializer.save(user=self.request.user, chargeId=charge.id)
