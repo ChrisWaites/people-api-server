@@ -57,7 +57,7 @@ class Query(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    regex = models.TextField(default=r'^.*$')
+    regex = models.TextField(default=r'.*')
     bid = models.PositiveIntegerField(default=1)
 
 
