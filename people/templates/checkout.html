@@ -2,12 +2,11 @@
     <input type="hidden" name="amount" value={{ amount }} />
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="pk_test_Bd2TMQ2vDKpnZ0ZXvaf8R8Gf"
+        data-key={{ stripe-public-key }}
         data-amount={{ amount }}
-        data-name="people api"
+        data-name="People API"
         data-description="Widget"
         data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto"
-        data-zip-code="true">
+        data-locale="auto">
     </script>
 </form>

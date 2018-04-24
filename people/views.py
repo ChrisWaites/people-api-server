@@ -16,8 +16,6 @@ import re
 import random
 import stripe
 
-stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
-
 
 class UserViewSet(
         mixins.CreateModelMixin,
@@ -50,7 +48,10 @@ class DepositView(APIView):
     def get(self, request):
         print('GET')
         print(request.query_params)
-        return response.Response({'amount': request.query_params['amount']}, template_name='checkout.html')
+        return response.Response({
+            'amount': request.query_params['amount'],
+            'stripe-public-key': settings.STRIPE_PUBLIC_KEY,
+        }, template_name='checkout.html')
 
     def post(self, request):
         print('POST')
