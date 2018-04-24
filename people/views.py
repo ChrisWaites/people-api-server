@@ -74,8 +74,6 @@ class DepositViewSet(
         )
 
         # NOTE: Balance increment must be after stripe charge creation above
-        profile.balance += amount
-        profile.save()
         serializer.save(user=self.request.user, chargeId=charge.id)
 
     def get_serializer_class(self):
@@ -122,10 +120,9 @@ class QueryViewSet(
 
     def perform_create(self, serializer):
         profile = self.request.user.profile
-        if profile.balance == 0:
+        bid = serializer.validated_data['bid']
+        if profile.balance() < bid:
             raise ValidationError('Insufficient balance.')
-        profile.balance -= 1
-        profile.save()
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
@@ -150,8 +147,6 @@ class ResponseViewSet(
 
     def perform_create(self, serializer):
         profile = self.request.user.profile
-        profile.balance += 1
-        profile.save()
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):

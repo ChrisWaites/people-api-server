@@ -8,10 +8,11 @@ import uuid
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
-    balance = models.PositiveIntegerField(default=0)
 
-#    def balance(self):
-#        Deposit.objects.filter(user=self.user).aggregate(Sum('amount')) - Query.objects.filter(user=self.user).aggregate(Sum('bid'))
+    def balance(self):
+        Deposit.objects.filter(user=self.user).aggregate(models.Sum('amount')) \
+        + Response.objects.filter(user=self.user).aggregate(models.Sum('query__bid'))
+        - Query.objects.filter(user=self.user).aggregate(models.Sum('bid')) \
 
 
 @receiver(post_save, sender=User)
