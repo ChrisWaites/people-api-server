@@ -56,15 +56,13 @@ class DepositView(APIView):
         amount = int(request.data['amount'])
         stripeToken = request.data['stripeToken']
 
-        print('<Charge {} {} {}>'.format(amount, 'usd', stripeToken))
-        """ 
         charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
             source=stripeToken,
         )
-        """
 
+        Deposit.objects.create(user=request.user, chargeId=charge.id, amount=amount)
         profile.balance += amount
         profile.save()
 
