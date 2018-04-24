@@ -30,6 +30,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'balance')
 
 
+class DepositSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deposit
+        fields = '__all__'
+
+
+class CreateDepositSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deposit
+        fields = ('id', 'stripeToken', 'amount')
+
+
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute

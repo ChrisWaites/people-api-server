@@ -27,12 +27,13 @@ router.register('profiles', views.ProfileViewSet)
 router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
+router.register('deposits', views.DepositViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
     path('', include(router.urls)),
-    path('deposits/', views.DepositView.as_view())
+    path('deposit-checkout/', views.DepositCheckoutView.as_view())
 ]
 

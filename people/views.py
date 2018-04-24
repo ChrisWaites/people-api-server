@@ -42,7 +42,7 @@ class ProfileViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
 
-class DepositView(APIView):
+class DepositCheckoutView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     renderer_classes = (TemplateHTMLRenderer,)
@@ -53,22 +53,38 @@ class DepositView(APIView):
             'stripePublicKey': settings.STRIPE_PUBLIC_KEY,
         }, template_name='checkout.html')
 
-    def post(self, request):
-        profile = request.user.profile
-        amount = int(request.data['amount'])
-        stripeToken = request.data['stripeToken']
 
+class DepositViewSet(
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = Deposit.objects.all()
+    filter_backends = (IsOwnerFilterBackend,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def perform_create(self, serializer):
+        profile = self.request.user.profile
+        amount = serializer.validated_data['amount']
+        stripeToken = serializer.validated_data['stripeToken']
         charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
             source=stripeToken,
         )
-
-        deposit = Deposit.objects.create(user=request.user, chargeId=charge.id, amount=amount)
         profile.balance += amount
         profile.save()
+        serializer.save(user=self.request.user)
 
-        return HttpResponse('Success!')
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateDepositSerializer
+        else:
+            return DepositSerializer
+
+
 
 
 class AttributeViewSet(
