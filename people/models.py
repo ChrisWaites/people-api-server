@@ -10,13 +10,16 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
 
     def balance(self):
-        x = Deposit.objects.filter(user=self.user).aggregate(models.Sum('amount'))
-        y = Response.objects.filter(user=self.user).aggregate(models.Sum('query__bid'))
-        z = Query.objects.filter(user=self.user).aggregate(models.Sum('bid'))
-        print(x)
-        print(y)
-        print(z)
-        return x + y - z
+        deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
+        deposits = deposits if deposits != None else 0
+
+        responses = Response.objects.filter(user=self.user).aggregate(value=models.Sum('query__bid'))['value']
+        responses = responses if responses != None else 0
+
+        queries = Query.objects.filter(user=self.user).aggregate(value=models.Sum('bid'))['value']
+        queries = queries if queries != None else 0
+
+        return deposits + responses - queries
 
 
 @receiver(post_save, sender=User)
