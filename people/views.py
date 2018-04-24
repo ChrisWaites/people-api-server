@@ -42,7 +42,7 @@ class ProfileViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
 
-class DepositCheckoutView(APIView):
+class CheckoutView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     renderer_classes = (TemplateHTMLRenderer,)

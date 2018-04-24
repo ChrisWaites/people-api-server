@@ -34,6 +34,6 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('schema/', schema_view),
     path('', include(router.urls)),
-    path('deposit-checkout/', views.DepositCheckoutView.as_view())
+    path('checkout/', views.DepositCheckoutView.as_view())
 ]
 
