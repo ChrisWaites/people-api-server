@@ -46,31 +46,29 @@ class DepositView(APIView):
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request):
-        print('GET')
-        print(request.query_params)
         return response.Response({
             'amount': request.query_params['amount'],
             'stripePublicKey': settings.STRIPE_PUBLIC_KEY,
         }, template_name='checkout.html')
 
     def post(self, request):
-        print('POST')
-        return HttpResponse(request.data)
+        profile = request.user.profile
+        amount = request.data['amount']
+        stripeToken = request.data['stripeToken']
 
-"""
-    def post(self, request):
-        profile = self.request.user.profile
-        amount = serializer.validated_data['amount']
-        stripeToken = serializer.validated_data['stripeToken']
-        transaction = stripe.Charge.create(
+        print('<Charge {} {} {}>'.format(amount, 'usd', stripeToken))
+        """ 
+        charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
             source=stripeToken,
         )
+        """
+
         profile.balance += amount
         profile.save()
-        serializer.save(user=self.request.user)
-"""
+
+        return HttpResponse('Success!')
 
 
 class AttributeViewSet(
