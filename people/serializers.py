@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('user', 'balance')
+        fields = '__all__'
 
 
 class DepositSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class CreateDepositSerializer(serializers.ModelSerializer):
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
-        fields = ('id', 'key', 'value')
+        fields = '__all__'
 
 
 class ResponseSerializer(serializers.ModelSerializer):

@@ -31,9 +31,9 @@ def save_user_profile(sender, instance, **kwargs):
 class Deposit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    stripeToken = models.TextField()
     chargeId = models.TextField()
     amount = models.IntegerField()
-    stripeToken = models.TextField()
 
 
 class Attribute(models.Model):
