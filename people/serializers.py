@@ -39,7 +39,7 @@ class DepositSerializer(serializers.ModelSerializer):
 class CreateDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposit
-        fields = ('id', 'stripeToken', 'amount')
+        fields = ('stripeToken', 'amount')
 
 
 class AttributeSerializer(serializers.ModelSerializer):
