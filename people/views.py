@@ -60,7 +60,6 @@ class DepositViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        profile = self.request.user.profile
         amount = serializer.validated_data['amount']
 
         charge = stripe.Charge.create(

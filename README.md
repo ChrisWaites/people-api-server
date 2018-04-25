@@ -1,4 +1,4 @@
-# Human API (Server)
+# People API Server
 
-Server for https://github.com/ChrisWaites/human.
+Server for https://github.com/ChrisWaites/people.
 
