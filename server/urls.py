@@ -37,5 +37,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('profile/', views.ProfileView.as_view()),
     path('checkout/', views.CheckoutView.as_view()),
+    path('register/', views.StripeRegisterView.as_view())
 ]
 

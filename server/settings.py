@@ -133,13 +133,16 @@ SECURE_SSL_REDIRECT = True
 # Stripe
 
 STRIPE_MODE = os.environ.get('STRIPE_MODE', 'TEST')
+STRIPE_REDIRECT_URI = 'https://people-api-server.herokuapp.com/register/'
 
 if STRIPE_MODE == 'LIVE':
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_LIVE_PUBLIC_KEY', '')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_LIVE_SECRET_KEY', '')
+    STRIPE_CLIENT_ID = os.environ.get('STRIPE_LIVE_CLIENT_ID', '')
 else:
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_TEST_PUBLIC_KEY', '')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY', '')
+    STRIPE_CLIENT_ID = os.environ.get('STRIPE_TEST_CLIENT_ID', '')
 
 
 import django_heroku

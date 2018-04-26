@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+
 from rest_framework import viewsets, mixins, permissions, response
 from rest_framework.decorators import action
-from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 
@@ -14,8 +15,31 @@ from .permissions import IsOwnerOrReadOnly
 
 import random
 import stripe
+import requests
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+class StripeRegisterView(APIView):
+
+    def get(self, request):
+        print(request.__dict__)
+        req = requests.get('https://connect.stripe.com/express/oauth/authorize',
+            params = {
+                'client_id': settings.STRIPE_CLIENT_ID,
+                'redirect_uri': settings.STRIPE_REDIRECT_URI
+            }
+        )
+        return redirect(req.url)
+
+    def post(self, request):
+        print(request.__dict__)
+        resp = requests.post('https://connect.stripe.com/oauth/token', data={
+            'client_secret': settings.STRIPE_SECRET_KEY,
+            'code': request.data['code']
+            'grant_type': 'authorization_code',
+        })
+        print(resp)
 
 
 class UserViewSet(
