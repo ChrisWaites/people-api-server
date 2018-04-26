@@ -81,7 +81,6 @@ class AttributeViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
-        mixins.UpdateModelMixin,
         mixins.DestroyModelMixin,
         viewsets.GenericViewSet
     ):
