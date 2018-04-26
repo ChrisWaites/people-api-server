@@ -33,7 +33,8 @@ class StripeRegisterView(APIView):
                 'code': request.query_params['code'],
                 'grant_type': 'authorization_code',
             })
-            print(resp.data.stripe_user_id)
+            print(resp.json()['stripe_user_id'])
+
             return redirect('/')
 
 
