@@ -23,7 +23,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class StripeRegisterView(APIView):
 
     def get(self, request):
-        print(request.__dict__)
+        print('GETTTTTT BOIII')
         req = requests.get('https://connect.stripe.com/express/oauth/authorize',
             params = {
                 'client_id': settings.STRIPE_CLIENT_ID,
@@ -33,7 +33,7 @@ class StripeRegisterView(APIView):
         return redirect(req.url)
 
     def post(self, request):
-        print(request.__dict__)
+        print('POSTTTTTT BOII')
         resp = requests.post('https://connect.stripe.com/oauth/token', data={
             'client_secret': settings.STRIPE_SECRET_KEY,
             'code': request.data['code'],
