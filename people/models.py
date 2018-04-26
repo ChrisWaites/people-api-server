@@ -67,3 +67,10 @@ class Response(models.Model):
     text = models.TextField()
     query = models.OneToOneField(Query, related_name='response', on_delete=models.CASCADE)
 
+
+class Rating(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    response = models.OneToOneField(Response, related_name='rating', on_delete=models.CASCADE)
+    satisfactory = models.BooleanField(default=True)
+
