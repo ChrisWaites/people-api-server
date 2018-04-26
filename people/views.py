@@ -150,6 +150,7 @@ class RatingViewSet(
         mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.RetrieveModelMixin,
+        mixins.DestroyModelMixin,
         viewsets.GenericViewSet
     ):
 
