@@ -68,7 +68,6 @@ class DepositViewSet(
             source=serializer.validated_data['stripeToken'],
         )
 
-        # NOTE: Balance increment must be after stripe charge creation above
         serializer.save(user=self.request.user, chargeId=charge.id)
 
     def get_serializer_class(self):
@@ -141,7 +140,6 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        profile = self.request.user.profile
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
@@ -149,4 +147,24 @@ class ResponseViewSet(
             return CreateResponseSerializer
         else:
             return ResponseSerializer
+
+class RatingViewSet(
+        mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet
+    ):
+
+    queryset = Rating.objects.all()
+    filter_backends = (IsOwnerFilterBackend,)
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateRatingSerializer
+        else:
+            return RatingSerializer
 

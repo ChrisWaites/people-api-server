@@ -80,3 +80,15 @@ class GetQuerySerializer(serializers.ModelSerializer):
         model = Query
         fields = ('id', 'text', 'regex', 'bid')
 
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = '__all__'
+
+
+class CreateRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'satisfactory', 'response')
+

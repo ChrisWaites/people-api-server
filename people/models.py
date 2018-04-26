@@ -46,6 +46,12 @@ class Deposit(models.Model):
     amount = models.PositiveIntegerField()
 
 
+class Transfer(models.Model):
+    chargeId = models.TextField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField()
+
+
 class Attribute(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -71,6 +77,6 @@ class Response(models.Model):
 class Rating(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    response = models.OneToOneField(Response, related_name='rating', on_delete=models.CASCADE)
     satisfactory = models.BooleanField(default=True)
+    response = models.OneToOneField(Response, related_name='rating', on_delete=models.CASCADE)
 

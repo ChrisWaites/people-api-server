@@ -27,6 +27,7 @@ router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
 router.register('deposits', views.DepositViewSet)
+router.register('ratings', views.RatingViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
