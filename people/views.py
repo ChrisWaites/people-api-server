@@ -24,13 +24,7 @@ class StripeRegisterView(APIView):
 
     def get(self, request):
         print('GETTTTTT BOIII')
-        req = requests.get('https://connect.stripe.com/express/oauth/authorize',
-            params = {
-                'client_id': settings.STRIPE_CLIENT_ID,
-                'redirect_uri': settings.STRIPE_REDIRECT_URI
-            }
-        )
-        return redirect(req.url)
+        return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
 
     def post(self, request):
         print('POSTTTTTT BOII')

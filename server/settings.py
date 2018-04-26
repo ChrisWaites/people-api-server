@@ -133,7 +133,6 @@ SECURE_SSL_REDIRECT = True
 # Stripe
 
 STRIPE_MODE = os.environ.get('STRIPE_MODE', 'TEST')
-STRIPE_REDIRECT_URI = 'https://people-api-server.herokuapp.com/register/'
 
 if STRIPE_MODE == 'LIVE':
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_LIVE_PUBLIC_KEY', '')
