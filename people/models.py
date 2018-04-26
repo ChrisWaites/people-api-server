@@ -13,8 +13,8 @@ class Profile(models.Model):
         deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
         deposits = deposits if deposits != None else 0
 
-        transfers = Transfer.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
-        transfers = transfers if transfers != None else 0
+        payouts = Payout.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
+        payouts = payouts if payouts != None else 0
 
         responses = Response.objects.filter(user=self.user).aggregate(value=models.Sum('query__bid'))['value']
         responses = responses if responses != None else 0
@@ -22,7 +22,7 @@ class Profile(models.Model):
         queries = Query.objects.filter(user=self.user).aggregate(value=models.Sum('bid'))['value']
         queries = queries if queries != None else 0
 
-        return deposits + responses - transfers - queries
+        return deposits + responses - payouts - queries
 
 
 @receiver(post_save, sender=User)
