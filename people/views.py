@@ -36,7 +36,7 @@ class StripeRegisterView(APIView):
         print(request.__dict__)
         resp = requests.post('https://connect.stripe.com/oauth/token', data={
             'client_secret': settings.STRIPE_SECRET_KEY,
-            'code': request.data['code']
+            'code': request.data['code'],
             'grant_type': 'authorization_code',
         })
         print(resp)
