@@ -23,17 +23,16 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class StripeRegisterView(APIView):
 
     def get(self, request):
-        print('GETTTTTT BOIII')
-        return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
-
-    def post(self, request):
-        print('POSTTTTTT BOII')
-        resp = requests.post('https://connect.stripe.com/oauth/token', data={
-            'client_secret': settings.STRIPE_SECRET_KEY,
-            'code': request.data['code'],
-            'grant_type': 'authorization_code',
-        })
-        print(resp)
+        if 'code' in request.query_params:
+            return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
+        else:
+            resp = requests.post('https://connect.stripe.com/oauth/token', data={
+                'client_secret': settings.STRIPE_SECRET_KEY,
+                'code': request.data['code'],
+                'grant_type': 'authorization_code',
+            })
+            print(resp)
+            return redirect('/')
 
 
 class UserViewSet(
