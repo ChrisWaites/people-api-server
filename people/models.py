@@ -49,8 +49,8 @@ class Deposit(models.Model):
     amount = models.PositiveIntegerField()
 
 
-class Transfer(models.Model):
-    transferId = models.TextField(primary_key=True)
+class Payout(models.Model):
+    payoutId = models.TextField(primary_key=True)
     stripeAccountId = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()

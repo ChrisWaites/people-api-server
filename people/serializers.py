@@ -36,15 +36,15 @@ class CreateDepositSerializer(serializers.ModelSerializer):
         fields = ('stripeToken', 'amount')
 
 
-class TransferSerializer(serializers.ModelSerializer):
+class PayoutSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Transfer
+        model = Payout
         fields = '__all__'
 
 
-class CreateTransferSerializer(serializers.ModelSerializer):
+class CreatePayoutSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Transfer
+        model = Payout
         fields = ('stripeAccountId', 'amount')
 
 

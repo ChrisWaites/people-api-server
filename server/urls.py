@@ -27,7 +27,7 @@ router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
 router.register('deposits', views.DepositViewSet)
-router.register('transfers', views.TransferViewSet)
+router.register('payouts', views.PayoutViewSet)
 router.register('ratings', views.RatingViewSet)
 
 urlpatterns = [

@@ -77,14 +77,14 @@ class DepositViewSet(
             return DepositSerializer
 
 
-class TransferViewSet(
+class PayoutViewSet(
         mixins.ListModelMixin,
         mixins.RetrieveModelMixin,
         mixins.CreateModelMixin,
         viewsets.GenericViewSet
     ):
 
-    queryset = Transfer.objects.all()
+    queryset = Payout.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
@@ -94,19 +94,19 @@ class TransferViewSet(
         if self.request.user.profile.balance() < amount:
             raise ValidationError('Insufficient balance.')
 
-        transfer = stripe.Transfer.create(
+        payout = stripe.Payout.create(
             amount=amount,
             currency='usd',
             destination=serializer.validated_data['stripeAccountId'],
         )
 
-        serializer.save(user=self.request.user, transferId=transfer.id)
+        serializer.save(user=self.request.user, payoutId=payout.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return CreateTransferSerializer
+            return CreatePayoutSerializer
         else:
-            return TransferSerializer
+            return PayoutSerializer
 
 
 class AttributeViewSet(
