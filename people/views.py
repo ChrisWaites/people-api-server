@@ -112,9 +112,8 @@ class QueryViewSet(
         return response.Response(serializer.data)
 
     def perform_create(self, serializer):
-        profile = self.request.user.profile
-        bid = serializer.validated_data.get('bid', 0)
-        if profile.balance() < bid:
+        bid = serializer.validated_data.get('bid', 1)
+        if self.request.user.profile.balance() < bid:
             raise ValidationError('Insufficient balance.')
         serializer.save(user=self.request.user)
 
