@@ -13,6 +13,9 @@ class Profile(models.Model):
         deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
         deposits = deposits if deposits != None else 0
 
+        transfers = Transfer.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
+        transfers = transfers if transfers != None else 0
+
         responses = Response.objects.filter(user=self.user).aggregate(value=models.Sum('query__bid'))['value']
         responses = responses if responses != None else 0
 
@@ -47,7 +50,8 @@ class Deposit(models.Model):
 
 
 class Transfer(models.Model):
-    chargeId = models.TextField(primary_key=True)
+    transferId = models.TextField(primary_key=True)
+    stripeAccountId = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
 
