@@ -23,7 +23,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class StripeRegisterView(APIView):
 
     def get(self, request):
-        if 'code' in request.query_params:
+        if 'code' not in request.query_params:
             return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
         else:
             resp = requests.post('https://connect.stripe.com/oauth/token', data={
