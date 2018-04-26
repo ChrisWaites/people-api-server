@@ -28,15 +28,12 @@ class StripeRegisterView(APIView):
         if 'code' not in request.query_params:
             return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
         else: 
-            print('--------------------------')
-            print(request.query_params['code'])
             resp = requests.post('https://connect.stripe.com/oauth/token', data={
                 'client_secret': settings.STRIPE_SECRET_KEY,
                 'code': request.query_params['code'],
                 'grant_type': 'authorization_code',
             })
-            print(resp.__dict__)
-            print(resp.json()['stripe_user_id'])
+            request.user.profile.stripeAccountId = resp.json()['stripe_user_id'])
             return redirect('/')
 
 
@@ -55,7 +52,11 @@ class ProfileView(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def get(self, request):
-        return response.Response({'balance': Profile.objects.get(user=request.user).balance()})
+        profile = Profile.objects.get(user=request.user)
+        return response.Response({
+            'stripeAccountId': profile.stripeAccountId,
+            'profile': profile.balance()
+        })
 
 
 class CheckoutView(APIView):
@@ -119,7 +120,7 @@ class PayoutViewSet(
         payout = stripe.Payout.create(
             amount=amount,
             currency='usd',
-            destination=serializer.validated_data['stripeAccountId'],
+            destination=self.profile.stripeAccountId,
         )
 
         serializer.save(user=self.request.user, payoutId=payout.id)
