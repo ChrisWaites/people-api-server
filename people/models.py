@@ -22,7 +22,7 @@ class Profile(models.Model):
         queries = Query.objects.filter(user=self.user).aggregate(value=models.Sum('bid'))['value']
         queries = queries if queries != None else 0
 
-        return deposits + responses - queries
+        return deposits + responses - transfers - queries
 
 
 @receiver(post_save, sender=User)
