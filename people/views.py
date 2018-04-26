@@ -28,13 +28,15 @@ class StripeRegisterView(APIView):
         if 'code' not in request.query_params:
             return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
         else: 
+            print('--------------------------')
+            print(request.query_params['code'])
             resp = requests.post('https://connect.stripe.com/oauth/token', data={
                 'client_secret': settings.STRIPE_SECRET_KEY,
                 'code': request.query_params['code'],
                 'grant_type': 'authorization_code',
             })
+            print(resp.__dict__)
             print(resp.json()['stripe_user_id'])
-
             return redirect('/')
 
 
