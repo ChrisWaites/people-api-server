@@ -38,13 +38,13 @@ class CreateDepositSerializer(serializers.ModelSerializer):
 
 class TransferSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Deposit
+        model = Transfer
         fields = '__all__'
 
 
 class CreateTransferSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Deposit
+        model = Transfer
         fields = ('stripeAccountId', 'amount')
 
 
