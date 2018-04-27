@@ -43,7 +43,7 @@ class ProfileView(APIView):
         })
 
 
-class DepositCheckoutView(APIView):
+class DepositView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     renderer_classes = (TemplateHTMLRenderer,)
@@ -75,7 +75,7 @@ class DepositViewSet(
             source=serializer.validated_data['stripeToken'],
         )
 
-        serializer.save(user=self.request.user, chargeId=charge.id)
+        serializer.save(user=self.request.user, id=charge.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -84,7 +84,7 @@ class DepositViewSet(
             return DepositSerializer
 
 
-class PayoutRegisterView(APIView):
+class RegisterView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
@@ -105,14 +105,14 @@ class PayoutRegisterView(APIView):
 
 
 
-class PayoutViewSet(
+class TransferViewSet(
         mixins.ListModelMixin,
         mixins.RetrieveModelMixin,
         mixins.CreateModelMixin,
         viewsets.GenericViewSet
     ):
 
-    queryset = Payout.objects.all()
+    queryset = Transfer.objects.all()
     filter_backends = (IsOwnerFilterBackend,)
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
@@ -123,19 +123,19 @@ class PayoutViewSet(
         if self.request.user.profile.balance() < amount:
             raise ValidationError('Insufficient balance.')
 
-        payout = stripe.Transfer.create(
+        transfer = stripe.Transfer.create(
             amount=amount,
             currency='usd',
             destination=user.profile.stripeAccountId,
         )
 
-        serializer.save(user=user, payoutId=payout.id)
+        serializer.save(user=user, id=payout.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return CreatePayoutSerializer
+            return CreateTransferSerializer
         else:
-            return PayoutSerializer
+            return TransferSerializer
 
 
 class AttributeViewSet(

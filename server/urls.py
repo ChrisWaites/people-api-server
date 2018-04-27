@@ -27,7 +27,7 @@ router.register('attributes', views.AttributeViewSet)
 router.register('queries', views.QueryViewSet)
 router.register('responses', views.ResponseViewSet)
 router.register('deposits', views.DepositViewSet)
-router.register('payouts', views.PayoutViewSet)
+router.register('transfers', views.TransferViewSet)
 router.register('ratings', views.RatingViewSet)
 
 urlpatterns = [
@@ -36,7 +36,7 @@ urlpatterns = [
     path('schema/', schema_view),
     path('', include(router.urls)),
     path('profile/', views.ProfileView.as_view()),
-    path('deposit/', views.DepositCheckoutView.as_view()),
-    path('register/', views.PayoutRegisterView.as_view())
+    path('deposit/', views.DepositView.as_view()),
+    path('register/', views.RegisterView.as_view())
 ]
 

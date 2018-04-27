@@ -14,8 +14,8 @@ class Profile(models.Model):
         deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
         deposits = deposits if deposits != None else 0
 
-        payouts = Payout.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
-        payouts = payouts if payouts != None else 0
+        transfers = Transfer.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
+        transfers = transfers if transfers != None else 0
 
         responses = Response.objects.filter(user=self.user).aggregate(value=models.Sum('query__bid'))['value']
         responses = responses if responses != None else 0
@@ -23,7 +23,7 @@ class Profile(models.Model):
         queries = Query.objects.filter(user=self.user).aggregate(value=models.Sum('bid'))['value']
         queries = queries if queries != None else 0
 
-        return deposits + responses - payouts - queries
+        return deposits + responses - transfers - queries
 
 
 @receiver(post_save, sender=User)
@@ -44,14 +44,14 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class Deposit(models.Model):
-    chargeId = models.TextField(primary_key=True)
+    id = models.TextField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stripeToken = models.TextField()
     amount = models.PositiveIntegerField()
 
 
-class Payout(models.Model):
-    payoutId = models.TextField(primary_key=True)
+class Transfer(models.Model):
+    id = models.TextField(primary_key=True)
     stripeAccountId = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
