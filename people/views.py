@@ -118,6 +118,7 @@ class PayoutViewSet(
 
     def perform_create(self, serializer):
         amount = serializer.validated_data['amount']
+        user = self.request.user
 
         if self.request.user.profile.balance() < amount:
             raise ValidationError('Insufficient balance.')
@@ -125,10 +126,10 @@ class PayoutViewSet(
         payout = stripe.Payout.create(
             amount=amount,
             currency='usd',
-            destination=self.profile.stripeAccountId,
+            destination=user.profile.stripeAccountId,
         )
 
-        serializer.save(user=self.request.user, payoutId=payout.id)
+        serializer.save(user=user, payoutId=payout.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
