@@ -52,7 +52,6 @@ class Deposit(models.Model):
 
 class Transfer(models.Model):
     id = models.TextField(primary_key=True)
-    stripeAccountId = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
 
