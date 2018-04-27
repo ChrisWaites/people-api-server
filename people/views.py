@@ -91,6 +91,7 @@ class RegisterView(APIView):
     def get(self, request):
         if 'code' not in request.query_params:
             return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
+
         else: 
             resp = requests.post('https://connect.stripe.com/oauth/token', data={
                 'client_secret': settings.STRIPE_SECRET_KEY,
@@ -102,7 +103,6 @@ class RegisterView(APIView):
             request.user.profile.save()
 
             return redirect('/')
-
 
 
 class TransferViewSet(
@@ -199,6 +199,11 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
+        if serializer.validated_data['query'].callback != None:
+            try:
+                requests.post(callback, data=validated_data)
+            except:
+                pass
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):

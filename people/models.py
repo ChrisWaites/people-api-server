@@ -8,7 +8,7 @@ import uuid
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
-    stripeAccountId = models.TextField(default='')
+    stripeAccountId = models.TextField(default=None)
 
     def balance(self):
         deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']
@@ -70,6 +70,7 @@ class Query(models.Model):
     text = models.TextField()
     regex = models.TextField(default=r'.*')
     bid = models.PositiveIntegerField(default=1)
+    callback = models.TextField(default=None)
 
 
 class Response(models.Model):
