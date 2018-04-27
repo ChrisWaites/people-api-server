@@ -20,22 +20,6 @@ import requests
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-class StripeRegisterView(APIView):
-
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-
-    def get(self, request):
-        if 'code' not in request.query_params:
-            return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
-        else: 
-            resp = requests.post('https://connect.stripe.com/oauth/token', data={
-                'client_secret': settings.STRIPE_SECRET_KEY,
-                'code': request.query_params['code'],
-                'grant_type': 'authorization_code',
-            })
-            request.user.profile.stripeAccountId = resp.json()['stripe_user_id']
-            return redirect('/')
-
 
 class UserViewSet(
         mixins.CreateModelMixin,
@@ -55,11 +39,11 @@ class ProfileView(APIView):
         profile = Profile.objects.get(user=request.user)
         return response.Response({
             'stripeAccountId': profile.stripeAccountId,
-            'profile': profile.balance()
+            'balance': profile.balance()
         })
 
 
-class CheckoutView(APIView):
+class DepositCheckoutView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     renderer_classes = (TemplateHTMLRenderer,)
@@ -98,6 +82,24 @@ class DepositViewSet(
             return CreateDepositSerializer
         else:
             return DepositSerializer
+
+
+class PayoutRegisterView(APIView):
+
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get(self, request):
+        if 'code' not in request.query_params:
+            return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
+        else: 
+            resp = requests.post('https://connect.stripe.com/oauth/token', data={
+                'client_secret': settings.STRIPE_SECRET_KEY,
+                'code': request.query_params['code'],
+                'grant_type': 'authorization_code',
+            })
+            request.user.profile.stripeAccountId = resp.json()['stripe_user_id']
+            return redirect('/')
+
 
 
 class PayoutViewSet(

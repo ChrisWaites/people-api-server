@@ -33,7 +33,7 @@ class DepositSerializer(serializers.ModelSerializer):
 class CreateDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposit
-        fields = ('stripeToken', 'amount')
+        fields = ('amount',)
 
 
 class PayoutSerializer(serializers.ModelSerializer):
@@ -45,8 +45,7 @@ class PayoutSerializer(serializers.ModelSerializer):
 class CreatePayoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payout
-        fields = ('stripeAccountId', 'amount')
-
+        fields = ('amount',)
 
 
 class AttributeSerializer(serializers.ModelSerializer):
