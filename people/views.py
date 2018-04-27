@@ -97,7 +97,10 @@ class PayoutRegisterView(APIView):
                 'code': request.query_params['code'],
                 'grant_type': 'authorization_code',
             })
+
             request.user.profile.stripeAccountId = resp.json()['stripe_user_id']
+            request.user.profile.save()
+
             return redirect('/')
 
 
