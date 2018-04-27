@@ -123,7 +123,7 @@ class PayoutViewSet(
         if self.request.user.profile.balance() < amount:
             raise ValidationError('Insufficient balance.')
 
-        payout = stripe.Payout.create(
+        payout = stripe.Transfer.create(
             amount=amount,
             currency='usd',
             destination=user.profile.stripeAccountId,
