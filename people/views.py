@@ -129,7 +129,7 @@ class TransferViewSet(
             destination=user.profile.stripeAccountId,
         )
 
-        serializer.save(user=user, id=payout.id)
+        serializer.save(user=user, id=transfer.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
