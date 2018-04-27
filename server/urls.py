@@ -36,7 +36,7 @@ urlpatterns = [
     path('schema/', schema_view),
     path('', include(router.urls)),
     path('profile/', views.ProfileView.as_view()),
-    path('checkout/', views.DepositCheckoutView.as_view()),
+    path('deposit/', views.DepositCheckoutView.as_view()),
     path('register/', views.PayoutRegisterView.as_view())
 ]
 
