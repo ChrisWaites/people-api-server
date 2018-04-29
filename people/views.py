@@ -73,6 +73,7 @@ class DepositViewSet(
             amount=amount,
             currency='usd',
             source=serializer.validated_data['stripeToken'],
+            stripe_account=self.request.user.profile.stripeAccountId,
         )
 
         serializer.save(user=self.request.user, id=charge.id)
@@ -199,11 +200,6 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        if serializer.validated_data['query'].callback != None:
-            try:
-                requests.post(callback, data=validated_data)
-            except:
-                pass
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
