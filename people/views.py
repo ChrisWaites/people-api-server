@@ -207,9 +207,9 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
+        url = serializer.validated_data['query'].callback
+        print("ZEE URL ISSS {}".format(url))
         try:
-            url = serializer.validated_data['response'].query.callback
-            print("ZEE URL ISSS {}".format(url))
             if url != None:
                 resp = requests.post(url, data=serializer.validated_data)
         except:

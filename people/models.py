@@ -72,7 +72,7 @@ class Query(models.Model):
     text = models.TextField()
     regex = models.TextField(default=r'.*')
     bid = models.PositiveIntegerField(default=1)
-    callback = models.TextField(null=True, default=None)
+    callback = models.URLField(null=True, default=None)
 
 
 class Response(models.Model):
