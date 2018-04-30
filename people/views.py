@@ -69,6 +69,11 @@ class DepositViewSet(
 
     def perform_create(self, serializer):
         amount = serializer.validated_data['amount']
+        stripe_fees = math.ceil((amount * 0.029) + 30)
+        internal_fees = math.ceil(amount * 0.01)
+        amount_post_fees = amount - stripe_fees - internal_fees
+        if amount <= 50 or amount_post_fees <= 0:
+            raise Exception('Deposit amount too small.')
 
         charge = stripe.Charge.create(
             amount=amount,
@@ -77,7 +82,7 @@ class DepositViewSet(
             stripe_account=self.request.user.profile.stripeAccountId,
         )
 
-        serializer.save(user=self.request.user, id=charge.id)
+        serializer.save(amount=amount_post_fees, user=self.request.user, id=charge.id)
 
     def get_serializer_class(self):
         if self.action == 'create':
