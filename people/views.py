@@ -17,6 +17,7 @@ import random
 import stripe
 import requests
 
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
