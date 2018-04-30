@@ -45,6 +45,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Deposit(models.Model):
     id = models.TextField(primary_key=True)
+    ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stripeToken = models.TextField()
     amount = models.PositiveIntegerField()
@@ -52,6 +53,7 @@ class Deposit(models.Model):
 
 class Transfer(models.Model):
     id = models.TextField(primary_key=True)
+    ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
 
@@ -65,6 +67,7 @@ class Attribute(models.Model):
 
 class Query(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     regex = models.TextField(default=r'.*')
@@ -74,6 +77,7 @@ class Query(models.Model):
 
 class Response(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    ts = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     query = models.OneToOneField(Query, related_name='response', on_delete=models.CASCADE)
