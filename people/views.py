@@ -207,6 +207,12 @@ class ResponseViewSet(
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
+        try:
+            url = serializer.validated_data['response'].query.callback
+            resp = requests.post(url, data=serializer.validated_data)
+        except:
+            pass
+
         serializer.save(user=self.request.user)
 
     def get_serializer_class(self):
