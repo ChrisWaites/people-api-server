@@ -209,7 +209,9 @@ class ResponseViewSet(
     def perform_create(self, serializer):
         try:
             url = serializer.validated_data['response'].query.callback
-            resp = requests.post(url, data=serializer.validated_data)
+            print(url)
+            if url != None:
+                resp = requests.post(url, data=serializer.validated_data)
         except:
             pass
 
