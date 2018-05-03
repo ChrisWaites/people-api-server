@@ -1,4 +1,4 @@
-<form action="/deposits/" method="POST">
+<form action="/deposits" method="POST">
     {% csrf_token %}
     <input type="hidden" name="amount" value={{ amount }} />
     <script
@@ -9,6 +9,8 @@
         data-name="People API"
         data-email={{ email }}
         data-image="https://i.imgur.com/z8gUC5B.jpg"
-        data-locale="auto">
+        data-allow-remember-me="false"
+        data-locale="auto"
+    >
     </script>
 </form>
