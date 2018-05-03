@@ -3,12 +3,10 @@
     <input type="hidden" name="amount" value={{ amount }} />
     <script
         src="https://checkout.stripe.com/checkout.js"
-        class="stripe-button"
         data-key={{ stripePublicKey }}
         data-amount={{ amount }}
         data-name="People API"
         data-email={{ email }}
-        data-description="Deposit"
         data-image="https://i.imgur.com/z8gUC5B.jpg"
         data-locale="auto">
     </script>
