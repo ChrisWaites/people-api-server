@@ -2,12 +2,14 @@
     {% csrf_token %}
     <input type="hidden" name="amount" value={{ amount }} />
     <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        src="https://checkout.stripe.com/checkout.js"
+        class="stripe-button"
         data-key={{ stripePublicKey }}
         data-amount={{ amount }}
         data-name="People API"
+        data-email={{ email }}
         data-description="Widget"
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-image="https://imgur.com/z8gUC5B"
         data-locale="auto">
     </script>
 </form>

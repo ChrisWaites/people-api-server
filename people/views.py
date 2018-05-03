@@ -52,6 +52,7 @@ class DepositView(APIView):
 
     def get(self, request):
         return response.Response({
+            'email': request.user.email,
             'amount': request.query_params['amount'],
             'stripePublicKey': settings.STRIPE_PUBLIC_KEY,
         }, template_name='checkout.html')
