@@ -99,7 +99,10 @@ class RegisterView(APIView):
 
     def get(self, request):
         if 'code' not in request.query_params:
-            return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}'.format(settings.STRIPE_CLIENT_ID))
+            return redirect('https://connect.stripe.com/express/oauth/authorize?client_id={}&stripe_user[email]={}'.format(
+                settings.STRIPE_CLIENT_ID,
+                request.user.email,
+            ))
 
         else: 
             resp = requests.post('https://connect.stripe.com/oauth/token', data={
