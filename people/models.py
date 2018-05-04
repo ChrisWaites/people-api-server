@@ -7,7 +7,7 @@ import uuid
 
 
 class Profile(models.Model):
-    id = models.TextField(primary_key=True)
+    id = models.TextField()
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
     stripeAccountId = models.TextField(null=True, default=None)
 
