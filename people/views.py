@@ -182,8 +182,8 @@ class QueryViewSet(
     @action(detail=False)
     def get(self, request):
         query = random.choice(Query.objects.filter(response=None))
-        query.num_retrievals += 1
-        query.last_retrieved = datetime.now()
+        query.numRetrievals += 1
+        query.lastRetrieved = datetime.now()
         query.save()
         serializer = self.get_serializer(query)
         return response.Response(serializer.data)
