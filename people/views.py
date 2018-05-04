@@ -13,10 +13,11 @@ from .serializers import *
 from .filters import IsOwnerFilterBackend
 from .permissions import IsOwnerOrReadOnly
 
-import random
-import stripe
-import requests
+import datetime
 import math
+import random
+import requests
+import stripe
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -181,6 +182,9 @@ class QueryViewSet(
     @action(detail=False)
     def get(self, request):
         query = random.choice(Query.objects.filter(response=None))
+        query.num_retrievals += 1
+        query.last_retrieved = datetime.now()
+        query.save()
         serializer = self.get_serializer(query)
         return response.Response(serializer.data)
 

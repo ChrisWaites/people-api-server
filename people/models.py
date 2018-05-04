@@ -7,6 +7,7 @@ import uuid
 
 
 class Profile(models.Model):
+    id = models.TextField(primary_key=True)
     user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
     stripeAccountId = models.TextField(null=True, default=None)
 
@@ -67,12 +68,14 @@ class Attribute(models.Model):
 
 class Query(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    ts = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     regex = models.TextField(default=r'.*')
     bid = models.PositiveIntegerField(default=1)
     callback = models.URLField(null=True, default=None)
+    last_retrieved = models.DateTimeField(null=True, default=None)
+    num_retrievals = models.IntegerField(default=0)
 
 
 class Response(models.Model):
