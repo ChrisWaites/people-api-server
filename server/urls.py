@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from rest_framework.schemas import get_schema_view
 from rest_framework.routers import DefaultRouter
@@ -39,6 +38,6 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view()),
     path('deposit/', views.DepositView.as_view()),
     path('register/', views.RegisterView.as_view())
-    path('social-login/', auth_views.LoginView.as_view(template_name='social_login.html'))
+    #path('social-login/', auth_views.LoginView.as_view(template_name='social_login.html'))
 ]
 
