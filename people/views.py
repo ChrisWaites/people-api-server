@@ -272,11 +272,7 @@ class MessengerView(APIView):
 
     def post(self, request):
         try:
-            print(request.data)
-            req = json.loads(request.body)
-            print(req)
-
-            for event in req.get('entry'):
+            for event in request.data.get('entry'):
                 messaging = event.get('messaging')
                 for message in messaging:
                     if message.get('message'):
