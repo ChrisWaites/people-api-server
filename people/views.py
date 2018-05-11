@@ -21,12 +21,14 @@ import random
 import requests
 import stripe
 
+import uuid
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SocialLoginView(auth_views.LoginView):
     def get_redirect_url(self):
-        return self.request.GET.get('redirect_uri')
+        return self.request.GET.get('redirect_uri') + '&authorization_code=' + uuid.uui4
 
 
 class UserViewSet(
