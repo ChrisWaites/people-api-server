@@ -283,18 +283,18 @@ class MessengerView(APIView):
                 messaging = event.get('messaging')
                 for message in messaging:
 
-                    recipient_id = message.get('sender').get('id')
+                    sender_id = message.get('sender').get('id')
 
                     if message.get('message'):
 
                         text = message.get('message').get('text')
 
                         if text == 'help':
-                            bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
+                            bot.send_text_message(sender_id, 'Commands:\n\nregister\nlogin\nlogout')
                             
                         elif text == 'register':
                             bot.send_button_message(
-                                recipient_id, 'Click here to register.', [{
+                                sender_id, 'Click here to register.', [{
                                         'type': 'web_url',
                                         'url': 'https://people-api-server.herokuapp.com/messenger-register/',
                                         'title': 'Register',
@@ -303,7 +303,7 @@ class MessengerView(APIView):
 
                         elif text == 'login':
                             bot.send_button_message(
-                                recipient_id, 'Welcome! Click here to login.', [{
+                                sender_id, 'Welcome! Click here to login.', [{
                                         'type': 'account_link',
                                         'url': 'https://people-api-server.herokuapp.com/messenger-login/',
                                     }]
@@ -311,22 +311,30 @@ class MessengerView(APIView):
 
                         elif text == 'logout':
                             bot.send_button_message(
-                                recipient_id, 'Sorry to see you go! Click here to logout.', [{
+                                sender_id, 'Sorry to see you go! Click here to logout.', [{
                                         'type': 'account_unlink'
                                     }]
                                 )
 
                         elif text == 'retrieve':
-                            bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
+                            bot.send_text_message(sender_id, 'Sample Query? [1-5]')
 
                     elif message.get('account_linking'):
+                        if message.get('account_linking').get('status') == 'linked':
 
-                        auth_code = message.get('account_linking').get('authorization_code')
-                        profile = Profile.objects.get(id=auth_code)
-                        profile.messengerId = recipient_id
-                        profile.save()
+                            auth_code = message.get('account_linking').get('authorization_code')
 
-                        bot.send_text_message(recipient_id, 'Welcome {}!'.format(profile.user.username))
+                            profile = Profile.objects.get(id=auth_code)
+                            profile.messengerId = sender_id
+                            profile.save()
+
+                            bot.send_text_message(sender_id, 'Welcome {}!'.format(profile.user.username))
+
+                        else:
+
+                            profile = Profile.objects.get(messengerId=sender_id)
+                            profile.messengerId = None
+                            profile.save()
 
 
 
