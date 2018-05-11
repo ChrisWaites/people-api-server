@@ -317,6 +317,13 @@ class MessengerView(APIView):
                         else:
                             bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
 
+                    elif message.get('account_linking'):
+
+                        auth_code = message.get('account_linking').get('authorization_code')
+                        User.objects.get(id=auth_code).messengerId = message.get('sender').get('id')
+
+
+
         except Exception as e:
             print(e)
 
