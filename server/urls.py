@@ -38,6 +38,6 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view()),
     path('deposit/', views.DepositView.as_view()),
     path('register/', views.RegisterView.as_view())
-    #path('social-login/', auth_views.LoginView.as_view(template_name='social_login.html'))
+    path('social-login/', views.SocialLoginView.as_view())
 ]
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
 from django.http import HttpResponse
 
 from rest_framework import viewsets, mixins, permissions, response
@@ -22,6 +23,11 @@ import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+class SocialLoginView(auth_views.LoginView):
+    redirect_field_name = 'redirect_uri'
+    
+    #def get_redirect_url(self):
+    #    return self.request.POST.get('redirect_uri')
 
 
 class UserViewSet(
@@ -72,9 +78,11 @@ class DepositViewSet(
 
     def perform_create(self, serializer):
         amount = serializer.validated_data['amount']
+
         stripe_fees = math.ceil((amount * 0.029) + 30)
         internal_fees = math.ceil(amount * 0.01)
         amount_post_fees = amount - stripe_fees - internal_fees
+
         if amount <= 50 or amount_post_fees <= 0:
             raise Exception('Deposit amount too small.')
 
@@ -182,11 +190,12 @@ class QueryViewSet(
     @action(detail=False)
     def get(self, request):
         query = random.choice(Query.objects.filter(response=None))
+
         query.numRetrievals += 1
         query.lastRetrieved = datetime.now()
         query.save()
-        serializer = self.get_serializer(query)
-        return response.Response(serializer.data)
+
+        return response.Response(self.get_serializer(query).data)
 
     def perform_create(self, serializer):
         bid = serializer.validated_data.get('bid', 1)
