@@ -294,6 +294,8 @@ class MessengerView(APIView):
                             profile = Profile.objects.get(messengerId=sender_id)
                             query = Query.objects.get(id=profile.currentQueryId)
                             Response.objects.create(user=profile.user, query=query, text=text)
+
+                            bot.send_text_message(sender_id, "Thanks! You've been credited {} cents.".format(query.bid))
                         except Exception as e:
                             print(e)
 
