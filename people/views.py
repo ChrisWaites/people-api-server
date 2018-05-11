@@ -289,7 +289,7 @@ class MessengerView(APIView):
                             bot.send_button_message(
                                 recipient_id, 'Click here to register.', [{
                                         'type': 'web_url',
-                                        'url': 'https://human-api-server.herokuapp.com/register/',
+                                        'url': 'https://people-api-server.herokuapp.com/register/',
                                         'title': 'Register',
                                     }]
                                 )
@@ -298,7 +298,7 @@ class MessengerView(APIView):
                             bot.send_button_message(
                                 recipient_id, 'Click here to login.', [{
                                         'type': 'account_link',
-                                        'url': 'https://human-api-server.herokuapp.com/messenger-login/',
+                                        'url': 'https://people-api-server.herokuapp.com/messenger-login/',
                                     }]
                                 )
 
