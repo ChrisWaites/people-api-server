@@ -264,13 +264,13 @@ class MessengerLoginView(auth_views.LoginView):
 
 
 class MessengerView(APIView):
-    def get(request):
+    def get(self, request):
         token_sent = request.args.get("hub.verify_token")
         if token_sent == settings.VERIFY_TOKEN:
             return request.args.get("hub.challenge")
         return HttpResponse('Invalid verification token.')
 
-    def post(request):
+    def post(self, request):
         try:
             req = json.loads(request.body)
             print(req)
