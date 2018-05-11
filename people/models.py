@@ -11,6 +11,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', unique=True, on_delete=models.CASCADE)
     stripeAccountId = models.TextField(null=True, default=None)
     messengerId = models.TextField(null=True, default=None)
+    currentQueryId = models.UUIDField(null=True, default=None)
 
     def balance(self):
         deposits = Deposit.objects.filter(user=self.user).aggregate(value=models.Sum('amount'))['value']

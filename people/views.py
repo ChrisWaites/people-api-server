@@ -317,7 +317,11 @@ class MessengerView(APIView):
                                 )
 
                         elif text == 'retrieve':
-                            bot.send_text_message(sender_id, 'Sample Query? [1-5]')
+                            query = random.choice(Query.objects.filter(response=None))
+                            profile = Profile.objects.get(messengerId=sender_id)
+                            profile.currentQueryId = query.id
+
+                            bot.send_text_message(sender_id, 'Here you go {}.\n\n{}'.format(profile.user.username, query.text))
 
                     elif message.get('account_linking'):
                         if message.get('account_linking').get('status') == 'linked':
