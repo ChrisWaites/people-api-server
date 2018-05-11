@@ -265,6 +265,11 @@ class MessengerLoginView(auth_views.LoginView):
         return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(self.request.user.id)
 
 
+class MessengerLoginView(auth_views.LoginView):
+    def get_success_url(self):
+        return 'https://people-api-server.herokuapp.com/register'
+
+
 class MessengerView(APIView):
     def get(self, request):
         token_sent = request.query_params.get("hub.verify_token")
@@ -289,7 +294,7 @@ class MessengerView(APIView):
                             bot.send_button_message(
                                 recipient_id, 'Click here to register.', [{
                                         'type': 'web_url',
-                                        'url': 'https://people-api-server.herokuapp.com/register/',
+                                        'url': 'https://people-api-server.herokuapp.com/messenger-register/',
                                         'title': 'Register',
                                     }]
                                 )

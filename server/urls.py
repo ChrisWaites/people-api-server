@@ -39,6 +39,7 @@ urlpatterns = [
     path('deposit/', views.DepositView.as_view()),
     path('register/', views.RegisterView.as_view()),
     path('messenger-login/', views.MessengerLoginView.as_view(template_name='login.html')),
+    path('messenger-register/', views.MessengerRegisterView.as_view(template_name='login.html')),
     path('messenger/', views.MessengerView.as_view()),
 ]
 
