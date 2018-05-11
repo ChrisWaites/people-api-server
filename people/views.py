@@ -265,7 +265,7 @@ class MessengerLoginView(auth_views.LoginView):
         return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(self.request.user.id)
 
 
-class MessengerLoginView(auth_views.LoginView):
+class MessengerRegisterView(auth_views.LoginView):
     def get_success_url(self):
         return 'https://people-api-server.herokuapp.com/register'
 
@@ -301,7 +301,7 @@ class MessengerView(APIView):
 
                         elif text == 'login':
                             bot.send_button_message(
-                                recipient_id, 'Click here to login.', [{
+                                recipient_id, 'Welcome! Click here to login.', [{
                                         'type': 'account_link',
                                         'url': 'https://people-api-server.herokuapp.com/messenger-login/',
                                     }]
@@ -309,7 +309,7 @@ class MessengerView(APIView):
 
                         elif text == 'logout':
                             bot.send_button_message(
-                                recipient_id, 'Click here to logout.', [{
+                                recipient_id, 'Sorry to see you go! Click here to logout.', [{
                                         'type': 'account_unlink'
                                     }]
                                 )
@@ -319,4 +319,5 @@ class MessengerView(APIView):
 
         except Exception as e:
             print(e)
+
         return HttpResponse('Message processed.')
