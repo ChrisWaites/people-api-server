@@ -143,6 +143,9 @@ else:
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY', '')
     STRIPE_CLIENT_ID = os.environ.get('STRIPE_TEST_CLIENT_ID', '')
 
+ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', '')
+VERIFY_TOKEN = os.environ.get('VERIFY_TOKEN', '')
+
 
 import django_heroku
 django_heroku.settings(locals())

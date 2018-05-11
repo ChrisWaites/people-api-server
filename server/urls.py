@@ -38,6 +38,7 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view()),
     path('deposit/', views.DepositView.as_view()),
     path('register/', views.RegisterView.as_view()),
-    path('social-login/', views.SocialLoginView.as_view(template_name='login.html')),
+    path('messenger-login/', views.MessengerLoginView.as_view(template_name='login.html')),
+    path('messenger/', views.MessengerView.as_view()),
 ]
 

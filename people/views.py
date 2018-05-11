@@ -27,9 +27,6 @@ import uuid
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-class SocialLoginView(auth_views.LoginView):
-    def get_success_url(self):
-        return self.request.GET.get('redirect_uri') + '&authorization_code=' + self.request.user.id
 
 
 class UserViewSet(
@@ -262,3 +259,62 @@ class RatingViewSet(
         else:
             return RatingSerializer
 
+
+class MessengerLoginView(auth_views.LoginView):
+    def get_success_url(self):
+        return self.request.GET.get('redirect_uri') + '&authorization_code=' + self.request.user.id
+
+
+class MessengerView(APIView):
+    def get(request):
+        token_sent = request.args.get("hub.verify_token")
+        if token_sent == settings.VERIFY_TOKEN:
+            return request.args.get("hub.challenge")
+        return HttpResponse('Invalid verification token.')
+
+    def post(request):
+        try:
+            req = json.loads(request.body)
+            print(req)
+
+            for event in req.get('entry'):
+                messaging = event.get('messaging')
+                for message in messaging:
+                    if message.get('message'):
+
+                        recipient_id = message.get('sender').get('id')
+                        text = message.get('message').get('text')
+
+                        if text == 'help':
+                            bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
+                            
+                        elif text == 'register':
+                            bot.send_button_message(
+                                recipient_id, 'Click here to register.', [{
+                                        'type': 'web_url',
+                                        'url': REGISTER_URL,
+                                        'title': 'Register',
+                                    }]
+                                )
+
+                        elif text == 'login':
+                            bot.send_button_message(
+                                recipient_id, 'Click here to login.', [{
+                                        'type': 'account_link',
+                                        'url': LOGIN_URL,
+                                    }]
+                                )
+
+                        elif text == 'logout':
+                            bot.send_button_message(
+                                recipient_id, 'Click here to logout.', [{
+                                        'type': 'account_unlink'
+                                    }]
+                                )
+
+                        else:
+                            bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
+
+        except Exception as e:
+            print(e)
+        return HttpResponse('Message processed.')
