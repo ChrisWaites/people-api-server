@@ -282,9 +282,11 @@ class MessengerView(APIView):
             for event in request.data.get('entry'):
                 messaging = event.get('messaging')
                 for message in messaging:
+
+                    recipient_id = message.get('sender').get('id')
+
                     if message.get('message'):
 
-                        recipient_id = message.get('sender').get('id')
                         text = message.get('message').get('text')
 
                         if text == 'help':
@@ -314,13 +316,17 @@ class MessengerView(APIView):
                                     }]
                                 )
 
-                        else:
+                        elif text == 'retrieve':
                             bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
 
                     elif message.get('account_linking'):
 
                         auth_code = message.get('account_linking').get('authorization_code')
-                        Profile.objects.get(id=auth_code).messengerId = message.get('sender').get('id')
+                        profile = Profile.objects.get(id=auth_code)
+                        profile.messengerId = recipient_id
+                        profile.save()
+
+                        bot.send_text_message(recipient_id, 'Welcome {}!'.format(profile.user.username))
 
 
 
