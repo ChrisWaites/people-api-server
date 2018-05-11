@@ -26,9 +26,10 @@ import uuid
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
 class SocialLoginView(auth_views.LoginView):
-    def get_redirect_url(self):
-        return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(uuid.uuid4())
+    def get_success_url(self):
+        return self.request.GET.get('redirect_uri') + '&authorization_code=' + self.request.user.id
 
 
 class UserViewSet(
