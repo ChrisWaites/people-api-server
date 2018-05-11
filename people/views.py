@@ -262,7 +262,7 @@ class RatingViewSet(
 
 class MessengerLoginView(auth_views.LoginView):
     def get_success_url(self):
-        return self.request.GET.get('redirect_uri') + '&authorization_code=' + self.request.user.id
+        return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(self.request.user.id)
 
 
 class MessengerView(APIView):
