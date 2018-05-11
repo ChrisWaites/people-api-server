@@ -289,6 +289,14 @@ class MessengerView(APIView):
 
                         text = message.get('message').get('text')
 
+                        # First, see if the sender is a logged in user and, if so, has a current query
+                        try:
+                            profile = Profile.objects.get(messengerId=sender_id)
+                            query = Query.objects.get(id=profile.currentQueryId)
+                            Response.objects.create(user=profile.user, query=query, text=text)
+                        except Exception as e:
+                            pass
+
                         if text == 'help':
                             bot.send_text_message(sender_id, 'Commands:\n\nregister\nlogin\nlogout')
                             
