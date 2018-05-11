@@ -308,7 +308,7 @@ class MessengerView(APIView):
                             pass
 
                         elif text == 'help':
-                            bot.send_text_message(sender_id, 'Hello! Try sending some of the following to interact with our system.\n\nregister\nlogin\nlogout\nretrieve')
+                            bot.send_text_message(sender_id, 'Hello! Try sending some of the following to interact with our system.\n\nregister\nlogin\nlogout\nget')
                             
                         elif text == 'register':
                             bot.send_button_message(
@@ -334,7 +334,7 @@ class MessengerView(APIView):
                                     }]
                                 )
 
-                        elif text == 'retrieve':
+                        elif text == 'get`':
                             query = random.choice(Query.objects.filter(response=None))
 
                             profile = Profile.objects.get(messengerId=sender_id)
