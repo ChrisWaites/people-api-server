@@ -272,6 +272,7 @@ class MessengerView(APIView):
 
     def post(self, request):
         try:
+            print(request.data)
             req = json.loads(request.body)
             print(req)
 
@@ -290,7 +291,7 @@ class MessengerView(APIView):
                             bot.send_button_message(
                                 recipient_id, 'Click here to register.', [{
                                         'type': 'web_url',
-                                        'url': REGISTER_URL,
+                                        'url': 'https://human-api-server.herokuapp.com/register',
                                         'title': 'Register',
                                     }]
                                 )
@@ -299,7 +300,7 @@ class MessengerView(APIView):
                             bot.send_button_message(
                                 recipient_id, 'Click here to login.', [{
                                         'type': 'account_link',
-                                        'url': LOGIN_URL,
+                                        'url': 'https://human-api-server.herokuapp.com/messenger-login',
                                     }]
                                 )
 
