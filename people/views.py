@@ -303,7 +303,7 @@ class MessengerView(APIView):
                             print(e)
 
                         if text == 'help':
-                            bot.send_text_message(sender_id, 'Commands:\n\nregister\nlogin\nlogout')
+                            bot.send_text_message(sender_id, 'Hello! Try sending some of the following to interact with our system.\n\nregister\nlogin\nlogout\nretrieve')
                             
                         elif text == 'register':
                             bot.send_button_message(
