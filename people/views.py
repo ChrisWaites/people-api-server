@@ -340,9 +340,8 @@ class MessengerView(APIView):
                             profile.messengerId = None
                             profile.save()
 
-
-
         except Exception as e:
             print(e)
 
         return HttpResponse('Message processed.')
+
