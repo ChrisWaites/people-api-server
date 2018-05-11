@@ -289,7 +289,7 @@ class MessengerView(APIView):
 
                         text = message.get('message').get('text')
 
-                        # First, see if the sender is a logged in user and, if so, has a current query
+                        # First, see if the sender is a logged in user and, if so, has a current query to be answered
                         try:
                             profile = Profile.objects.get(messengerId=sender_id)
                             query = Query.objects.get(id=profile.currentQueryId)
@@ -337,6 +337,9 @@ class MessengerView(APIView):
                             profile.save()
 
                             bot.send_text_message(sender_id, 'Here you go {}.\n\n{}'.format(profile.user.username, query.text))
+
+                        else:
+                            bot.send_text_message(sender_id, "Sorry, didn't quite understand that.")
 
                     elif message.get('account_linking'):
                         if message.get('account_linking').get('status') == 'linked':
