@@ -262,7 +262,7 @@ class RatingViewSet(
 
 class MessengerLoginView(auth_views.LoginView):
     def get_success_url(self):
-        return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(self.request.user.id)
+        return self.request.GET.get('redirect_uri') + '&authorization_code=' + str(self.request.user.profile.id)
 
 
 class MessengerRegisterView(auth_views.LoginView):
@@ -320,7 +320,7 @@ class MessengerView(APIView):
                     elif message.get('account_linking'):
 
                         auth_code = message.get('account_linking').get('authorization_code')
-                        User.objects.get(id=auth_code).messengerId = message.get('sender').get('id')
+                        Profile.objects.get(id=auth_code).messengerId = message.get('sender').get('id')
 
 
 
