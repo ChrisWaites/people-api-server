@@ -295,7 +295,7 @@ class MessengerView(APIView):
                             query = Query.objects.get(id=profile.currentQueryId)
                             Response.objects.create(user=profile.user, query=query, text=text)
                         except Exception as e:
-                            pass
+                            print(e)
 
                         if text == 'help':
                             bot.send_text_message(sender_id, 'Commands:\n\nregister\nlogin\nlogout')
@@ -326,8 +326,10 @@ class MessengerView(APIView):
 
                         elif text == 'retrieve':
                             query = random.choice(Query.objects.filter(response=None))
+
                             profile = Profile.objects.get(messengerId=sender_id)
                             profile.currentQueryId = query.id
+                            profile.save()
 
                             bot.send_text_message(sender_id, 'Here you go {}.\n\n{}'.format(profile.user.username, query.text))
 
