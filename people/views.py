@@ -27,8 +27,6 @@ import uuid
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-
-
 class UserViewSet(
         mixins.CreateModelMixin,
         viewsets.GenericViewSet
