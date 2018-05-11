@@ -26,6 +26,8 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SocialLoginView(auth_views.LoginView):
     def get_redirect_url(self):
+        print('REAACHHHHH')
+        print(self.request.POST.get('redirect_uri'))
         return self.request.POST.get('redirect_uri')
 
 
