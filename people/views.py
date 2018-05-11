@@ -17,6 +17,7 @@ from .permissions import IsOwnerOrReadOnly
 
 from datetime import datetime
 import math
+from pymessenger import bot
 import random
 import requests
 import stripe
@@ -25,6 +26,7 @@ import uuid
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+bot = bot.Bot(settings.ACCESS_TOKEN)
 
 
 class UserViewSet(
