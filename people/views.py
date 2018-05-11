@@ -289,7 +289,8 @@ class MessengerView(APIView):
 
                         text = message.get('message').get('text')
 
-                        # First, see if the sender is a logged in user and, if so, has a current query to be answered
+                        responded_to_query = False
+                        # See if the sender is a logged in user and, if so, has a current query to be answered
                         try:
                             profile = Profile.objects.get(messengerId=sender_id)
                             query = Query.objects.get(id=profile.currentQueryId)
@@ -299,10 +300,14 @@ class MessengerView(APIView):
                             profile.save()
 
                             bot.send_text_message(sender_id, "Thanks! You've been credited {} cents.".format(query.bid))
+                            responded_to_query = True
                         except Exception as e:
-                            print(e)
+                            pass
 
-                        if text == 'help':
+                        if responded_to_query:
+                            pass
+
+                        elif text == 'help':
                             bot.send_text_message(sender_id, 'Hello! Try sending some of the following to interact with our system.\n\nregister\nlogin\nlogout\nretrieve')
                             
                         elif text == 'register':
