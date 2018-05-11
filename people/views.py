@@ -25,10 +25,8 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SocialLoginView(auth_views.LoginView):
-    redirect_field_name = 'redirect_uri'
-    
-    #def get_redirect_url(self):
-    #    return self.request.POST.get('redirect_uri')
+    def get_redirect_url(self):
+        return self.request.POST.get('redirect_uri')
 
 
 class UserViewSet(
