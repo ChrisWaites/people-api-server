@@ -304,6 +304,8 @@ class MessengerView(APIView):
                         except Exception as e:
                             pass
 
+                        print(text)
+
                         if responded_to_query:
                             pass
 
