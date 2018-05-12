@@ -334,7 +334,7 @@ class MessengerView(APIView):
                                     }]
                                 )
 
-                        elif text == 'get`':
+                        elif text == 'get':
                             query = random.choice(Query.objects.filter(response=None))
 
                             profile = Profile.objects.get(messengerId=sender_id)
